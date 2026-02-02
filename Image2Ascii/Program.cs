@@ -26,7 +26,6 @@ namespace Image2Ascii
         static void RunApp(string filepath, int asciiWidth)
         {
             Console.WriteLine("Appen körs...");
-            // TODO: Lägg till app-logik här
             
             var ascii = ImageToAscii.ConvertToAscii(filepath, asciiWidth);
             Console.WriteLine(ascii);
