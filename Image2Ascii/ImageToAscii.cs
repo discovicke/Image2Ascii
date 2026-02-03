@@ -6,9 +6,6 @@ namespace Image2Ascii;
 
 public class ImageToAscii
 {
-    private const string AsciiChars = "@$B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
-
-
     public static string ConvertToAscii(string imagePath, int width)
     {
         using var image = Image.Load<Rgb24>(imagePath);
