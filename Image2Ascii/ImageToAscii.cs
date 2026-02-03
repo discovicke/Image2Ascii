@@ -12,6 +12,7 @@ public class ImageToAscii
     public static string ConvertToAscii(string imagePath, int width)
     {
         using var image = Image.Load<Rgb24>(imagePath);
+        var options = new AsciiOptions();
 
         // Beräkna ny höjd baserat på aspect ratio
         int height = (int)(image.Height * width / (double)image.Width * 0.5);
@@ -27,12 +28,21 @@ public class ImageToAscii
             {
                 var pixel = image[x, y];
 
-                // Beräkna luminans
-                int brightness = (int)(0.299 * pixel.R + 0.587 * pixel.G + 0.114 * pixel.B);
+                double luminance = (0.299 * pixel.R + 0.587 * pixel.G + 0.114 * pixel.B) / 255.0;
 
-                // Mappa luminans till ASCII-tecken
-                int index = brightness * (AsciiChars.Length - 1) / 255;
-                result.Append(AsciiChars[index]);
+                // Brightness shift
+                luminance = Math.Clamp(luminance + options.Brightness, 0.0, 1.0);
+
+                // Gamma correction
+                luminance = Math.Pow(luminance, options.Gamma);
+
+                if (options.Invert)
+                {
+                    luminance = 1.0 - luminance;
+                }
+
+                int index = (int)(luminance * (options.AsciiChars.Length - 1));
+                result.Append(options.AsciiChars[index]);
             }
 
             result.AppendLine();
