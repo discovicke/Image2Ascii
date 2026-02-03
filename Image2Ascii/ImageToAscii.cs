@@ -6,16 +6,22 @@ namespace Image2Ascii;
 
 public class ImageToAscii
 {
+    // Behåll den gamla metoden för bakåtkompatibilitet
     public static string ConvertToAscii(string imagePath, int width)
     {
+        return ConvertToAscii(imagePath, new AsciiOptions { Width = width });
+    }
+
+    // Ny metod som tar AsciiOptions
+    public static string ConvertToAscii(string imagePath, AsciiOptions options)
+    {
         using var image = Image.Load<Rgb24>(imagePath);
-        var options = new AsciiOptions();
 
         // Beräkna ny höjd baserat på aspect ratio
-        int height = (int)(image.Height * width / (double)image.Width * 0.5);
+        int height = (int)(image.Height * options.Width / (double)image.Width * 0.5);
 
         // Skala om bilden
-        image.Mutate(x => x.Resize(width, height));
+        image.Mutate(x => x.Resize(options.Width, height));
 
         var result = new System.Text.StringBuilder();
 
