@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Image2Ascii; // eller det namespace där din ImageToAscii-klass ligger
 
 namespace Image2AsciiApi.Controllers;
 
