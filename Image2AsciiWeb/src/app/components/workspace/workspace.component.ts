@@ -8,6 +8,7 @@ import { ImageInputComponent } from '../image-input/image-input.component';
 import { SettingsPanelComponent } from '../settings-panel/settings-panel.component';
 import { AsciiPreviewComponent } from '../ascii-preview/ascii-preview.component';
 
+
 @Component({
   selector: 'app-workspace',
   standalone: true,
@@ -50,7 +51,7 @@ export class WorkspaceComponent {
     this.isLoading.set(true);
     this.asciiService.generate(file, settings).subscribe({
       next: () => this.isLoading.set(false),
-      error: (err) => {
+      error: (err: Error) => {
         console.error('Failed to generate ASCII:', err);
         this.isLoading.set(false);
       }
