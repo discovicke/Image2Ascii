@@ -1,1 +1,72 @@
-<p>settings-panel works!</p>
+<div class="settings-panel">
+  <h2>Settings</h2>
+
+  <div class="setting-group">
+    <label for="width">
+      Width
+      <span class="value">{{ settings().width }}</span>
+    </label>
+    <input
+      type="range"
+      id="width"
+      min="50"
+      max="200"
+      [value]="settings().width"
+      (input)="onWidthChange($any($event.target).value)"
+    />
+    <div class="range-labels">
+      <span>50</span>
+      <span>200</span>
+    </div>
+  </div>
+
+  <div class="setting-group">
+    <label for="brightness">
+      Brightness
+      <span class="value">{{ settings().brightness }}</span>
+    </label>
+    <input
+      type="range"
+      id="brightness"
+      min="-1"
+      max="1"
+      step="0.1"
+      [value]="settings().brightness"
+      (input)="onBrightnessChange($any($event.target).value)"
+    />
+    <div class="range-labels">
+      <span>-1</span>
+      <span>1</span>
+    </div>
+  </div>
+
+  <div class="setting-group">
+    <label for="gamma">
+      Gamma
+      <span class="value">{{ settings().gamma }}</span>
+    </label>
+    <input
+      type="range"
+      id="gamma"
+      min="0.5"
+      max="2"
+      step="0.1"
+      [value]="settings().gamma"
+      (input)="onGammaChange($any($event.target).value)"
+    />
+    <div class="range-labels">
+      <span>0.5</span>
+      <span>2.0</span>
+    </div>
+  </div>
+
+  <div class="setting-group checkbox-group">
+    <label><input
+      type="checkbox"
+      [checked]="settings().invert"
+      (change)="onInvertChange($any($event.target).checked)"
+    />
+      Invert Colors
+    </label>
+  </div>
+</div>
