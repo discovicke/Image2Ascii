@@ -1,1 +1,16 @@
-<p>workspace works!</p>
+<div class="workspace">
+  <div class="left-column">
+    <app-image-input (fileSelected)="onFileSelected($event)" />
+    <app-settings-panel
+      [settings]="settings()"
+      (settingsChanged)="onSettingsChanged($event)"
+    />
+  </div>
+
+  <div class="right-column">
+    <app-ascii-preview
+      [ascii]="asciiService.ascii()"
+      [isLoading]="isLoading()"
+    />
+  </div>
+</div>
