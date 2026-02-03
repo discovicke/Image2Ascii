@@ -48,13 +48,19 @@ export class WorkspaceComponent {
   }
 
   private generateAscii(file: File, settings: AsciiSettings) {
+    console.log('📤 Sending to API:', { file: file.name, settings });
     this.isLoading.set(true);
+
     this.asciiService.generate(file, settings).subscribe({
-      next: () => this.isLoading.set(false),
-      error: (err: Error) => {
-        console.error('Failed to generate ASCII:', err);
+      next: (response) => {
+        console.log('Got ASCII response:', response.ascii.substring(0, 100) + '...');
+        this.isLoading.set(false);
+      },
+      error: (err: unknown) => {
+        console.error('API Error:', err);
         this.isLoading.set(false);
       }
     });
   }
+
 }
