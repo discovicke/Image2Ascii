@@ -1,1 +1,41 @@
-<p>image-input works!</p>
+<div class="image-input-container">
+  <h2>Upload Image</h2>
+
+  <div
+    class="drop-zone"
+    appDragDrop
+    (fileDropped)="onFileDrop($event)"
+    (click)="triggerFileInput()"
+  >
+    <div class="drop-zone-content">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="17 8 12 3 7 8" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </svg>
+      <p>Click to upload or drag and drop</p>
+      <small>PNG, JPG, GIF up to 5MB</small>
+    </div>
+
+    <input
+      type="file"
+      id="file-input"
+      accept="image/*"
+      (change)="onFileChange($event)"
+      style="display: none"
+    />
+  </div>
+
+  @if (selectedFileName) {
+    <div class="selected-file">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+      <span>{{ selectedFileName }}</span>
+    </div>
+  }
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+</div>
