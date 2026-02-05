@@ -61,22 +61,30 @@
   </div>
 
   <div class="setting-group">
-    <label for="asciiLibrary">
-      ASCII Library
-      <span class="value">{{ settings().asciiLibrary }}</span>
-    </label>
+    <label for="asciiLibrary">ASCII Library</label>
+
     <select
       id="asciiLibrary"
-      [value]="settings().asciiLibrary"
       (change)="onAsciiLibraryChange($any($event.target).value)"
     >
-      @for (library of asciiLibraries; track library) {
-        <option [value]="library">
-          {{ library }}
-        </option>
+      @for (group of groupedLibraries; track group.label) {
+        <optgroup [label]="group.label">
+          @for (lib of group.libs; track lib.key) {
+            <option
+              [value]="lib.key"
+              [selected]="lib.key === settings().asciiLibrary"
+            >
+              {{ lib.label }}
+              @if (lib.warning) {
+                — {{ lib.warning }}
+              }
+            </option>
+          }
+        </optgroup>
       }
     </select>
   </div>
+
 
   <div class="setting-group checkbox-group">
     <label><input
