@@ -33,9 +33,16 @@ export class AsciiService {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('width', settings.width.toString());
-    formData.append('brightness', settings.brightness.toString());
-    formData.append('gamma', settings.gamma.toString());
+    formData.append('brightness', settings.brightness.toFixed(2));
+    formData.append('gamma', settings.gamma.toFixed(2));
     formData.append('invert', settings.invert.toString());
+
+    console.log('FormData values:', {
+      width: settings.width.toString(),
+      brightness: settings.brightness.toFixed(2),
+      gamma: settings.gamma.toFixed(2),
+      invert: settings.invert.toString()
+    });
 
     return this.http.post<AsciiResponse>(this.apiUrl, formData).pipe(
       tap(response => this.currentAscii.set(response.ascii))
