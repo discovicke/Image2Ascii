@@ -24,8 +24,15 @@ namespace Image2Ascii
                 Gamma = args.Length > 3 ? double.Parse(args[3]) : 1.0,
                 Invert = args.Length > 4 && bool.Parse(args[4])
             };
+            
+            Console.WriteLine($"Bildfil: {filepath}");
+            Console.WriteLine($"Width: {options.Width}");
+            Console.WriteLine($"Brightness: {options.Brightness}");
+            Console.WriteLine($"Gamma: {options.Gamma}");
+            Console.WriteLine($"Invert: {options.Invert}");
 
-            RunApp(filepath, options.Width);
+
+            RunApp(filepath, options);
 
             // Vänta på användaren innan programmet avslutas
             Console.WriteLine("Tryck på valfri tangent för att avsluta...");
@@ -33,16 +40,19 @@ namespace Image2Ascii
         }
 
         // Exempelmetod
-        static void RunApp(string filepath, int asciiWidth)
+        static void RunApp(string filepath, AsciiOptions options)
         {
-            Console.WriteLine("Appen körs...");
-            
-            var ascii = ImageToAscii.ConvertToAscii(filepath, asciiWidth);
+            Console.WriteLine("Genererar ASCII-art...");
+
+            var ascii = ImageToAscii.ConvertToAscii(filepath, options);
             Console.WriteLine(ascii);
 
             // Spara till fil
-            var filename = filepath.Split('.')[0] + "_ascii.txt";
+            var filenameWithoutExtension = Path.GetFileNameWithoutExtension(filepath);
+            var filename = $"{filenameWithoutExtension}_ascii.txt";
             File.WriteAllText(filename, ascii);
+            
+            Console.WriteLine($"Sparat till: {filename}");
         }
     }
 }
