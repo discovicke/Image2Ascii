@@ -7,6 +7,7 @@ export interface AsciiSettings {
   brightness: number;
   gamma: number;
   invert: boolean;
+  asciiLibrary?: string;
 }
 
 export interface AsciiResponse {
@@ -35,6 +36,7 @@ export class AsciiService {
     formData.append('width', settings.width.toString());
     formData.append('brightness', settings.brightness.toString());
     formData.append('gamma', settings.gamma.toString());
+    formData.append('asciiLibrary', settings.asciiLibrary || 'Classic');
     formData.append('invert', settings.invert.toString());
 
     console.log('🟦 [SERVICE] Original settings:', settings);
@@ -42,6 +44,7 @@ export class AsciiService {
       width: settings.width.toString(),
       brightness: settings.brightness.toString(),
       gamma: settings.gamma.toString(),
+      asciiLibrary: settings.asciiLibrary || 'Classic',
       invert: settings.invert.toString()
     });
 
