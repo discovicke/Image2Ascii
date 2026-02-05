@@ -1,9 +1,4 @@
-// csharp
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Image2Ascii;
 using Image2AsciiApi.Models;
 
@@ -52,7 +47,8 @@ public class AsciiController : ControllerBase
                 Width = request.GetWidth(),
                 Brightness = request.GetBrightness(),
                 Gamma = request.GetGamma(),
-                Invert = request.GetInvert()
+                Invert = request.GetInvert(),
+                SelectedLibrary = request.SelectedLibrary ?? "Classic"
             };
 
             Console.WriteLine($"🟨 [CONTROLLER] AsciiOptions created: Width={options.Width}, Brightness={options.Brightness}, Gamma={options.Gamma}, Invert={options.Invert}");
