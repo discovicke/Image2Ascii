@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.2" />
     <ProjectReference Include="..\Image2Ascii\Image2Ascii.csproj" />
   </ItemGroup>
 

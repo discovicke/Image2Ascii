@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AsciiService } from './ascii-service';
+import { AsciiService } from './ascii.service';
 
 describe('AsciiService', () => {
   let service: AsciiService;

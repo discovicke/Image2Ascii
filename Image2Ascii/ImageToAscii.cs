@@ -6,21 +6,16 @@ namespace Image2Ascii;
 
 public class ImageToAscii
 {
-    // Behåll den gamla metoden för bakåtkompatibilitet
-    public static string ConvertToAscii(string imagePath, int width)
-    {
-        return ConvertToAscii(imagePath, new AsciiOptions { Width = width });
-    }
-
     // Ny metod som tar AsciiOptions
     public static string ConvertToAscii(string imagePath, AsciiOptions options)
     {
+        Console.WriteLine(
+            $"🟩 [CONVERTER] Starting conversion with: Width={options.Width}, Brightness={options.Brightness}, Gamma={options.Gamma}, Invert={options.Invert}");
+
         using var image = Image.Load<Rgb24>(imagePath);
 
-        // Beräkna ny höjd baserat på aspect ratio
         int height = (int)(image.Height * options.Width / (double)image.Width * 0.5);
 
-        // Skala om bilden
         image.Mutate(x => x.Resize(options.Width, height));
 
         var result = new System.Text.StringBuilder();
@@ -30,15 +25,13 @@ public class ImageToAscii
             for (int x = 0; x < image.Width; x++)
             {
                 var pixel = image[x, y];
-
                 double luminance = (0.299 * pixel.R + 0.587 * pixel.G + 0.114 * pixel.B) / 255.0;
 
-                // Brightness shift
+               
                 luminance = Math.Clamp(luminance + options.Brightness, 0.0, 1.0);
-
-                // Gamma correction
+                
                 luminance = Math.Pow(luminance, options.Gamma);
-
+               
                 if (options.Invert)
                 {
                     luminance = 1.0 - luminance;
@@ -51,6 +44,7 @@ public class ImageToAscii
             result.AppendLine();
         }
 
+        Console.WriteLine($"🟩 [CONVERTER] Conversion complete");
         return result.ToString();
     }
 }
