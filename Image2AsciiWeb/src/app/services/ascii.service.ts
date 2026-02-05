@@ -15,7 +15,7 @@ export interface AsciiResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AsciiService {
-  private readonly apiUrl = 'https://localhost:5071/api/ascii';
+  private readonly apiUrl = 'http://localhost:5071/api/ascii';
 
   private currentImage = signal<File | null>(null);
   private currentAscii = signal<string>('');
