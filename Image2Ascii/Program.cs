@@ -22,7 +22,7 @@ namespace Image2Ascii
                 Width = args.Length > 1 ? int.Parse(args[1]) : 100,
                 Brightness = args.Length > 2 ? double.Parse(args[2]) : 0.0,
                 Gamma = args.Length > 3 ? double.Parse(args[3]) : 1.0,
-                Invert = args.Length > 4 && bool.Parse(args[4])
+                Invert = args.Length > 5 && bool.Parse(args[5])
             };
             
             Console.WriteLine($"Bildfil: {filepath}");

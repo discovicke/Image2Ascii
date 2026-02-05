@@ -1,21 +1,20 @@
-public enum AsciiLibrary
-{
-    Classic,
-    Detailed,
-    Blocks,
-    Minimal,
-    Monochrome
-}
-
 public static class AsciiLibraries
 {
-    public static string Get(AsciiLibrary lib) => lib switch
+    private static readonly Dictionary<string, string> Libraries = new()
     {
-        AsciiLibrary.Classic => "@%#*+=-:. ",
-        AsciiLibrary.Detailed => "@$B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ",
-        AsciiLibrary.Blocks => "█▓▒░@#*+=-:. ",
-        AsciiLibrary.Minimal => "#*. ",
-        AsciiLibrary.Monochrome => " .",
-        _ => throw new ArgumentOutOfRangeException(nameof(lib), lib, null)
+        ["Classic"] = "@%#*+=-:. ",
+        ["Detailed"] = "@$B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ",
+        ["Blocks"] = "█▓▒░@#*+=-:. ",
+        ["Minimal"] = "#*. ",
+        ["Monochrome"] = " ."
     };
+
+    public static string Get(string libraryName)
+    {
+        return Libraries.TryGetValue(libraryName, out var charset)
+            ? charset
+            : Libraries["Classic"];
+    }
+
+    public static IEnumerable<string> GetNames() => Libraries.Keys;
 }
