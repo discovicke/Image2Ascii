@@ -64,9 +64,10 @@ button {
 }
 
 .ascii-output {
-  font-family: 'Courier New', monospace;
+  font-family: 'Inter', monospace;
   font-size: 10px;
   line-height: 1;
+  letter-spacing: 0.05em;
   white-space: pre;
   margin: 0;
   color: #2d3748;
