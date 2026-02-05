@@ -13,7 +13,12 @@ import { AsciiSettings } from '../../services/ascii.service';
 export class SettingsPanelComponent {
   settings = input.required<AsciiSettings>();
   settingsChanged = output<AsciiSettings>();
+  asciiLibraries = ['Classic', 'Detailed', 'Blocks', 'Minimal', 'Monochrome'];
 
+  onAsciiLibraryChange(value: string) {
+    const newSettings = { ...this.settings(), asciiLibrary: value };
+    this.emitChange({ asciiLibrary: newSettings.asciiLibrary});
+  }
   onWidthChange(value: string) {
     this.emitChange({ width: parseInt(value) });
   }
