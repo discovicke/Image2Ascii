@@ -8,6 +8,7 @@ public class ConvertImageDto
     public string Width { get; set; } = "100";
     public string Brightness { get; set; } = "0.0";
     public string Gamma { get; set; } = "1.0";
+    public string SelectedLibrary { get; set; } = "Classic";
     public string Invert { get; set; } = "false";
 
     public int GetWidth()
