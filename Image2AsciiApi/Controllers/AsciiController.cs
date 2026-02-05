@@ -14,7 +14,7 @@ namespace Image2AsciiApi.Controllers;
 public class AsciiController : ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> ConvertImage([FromForm] ConvertImageDTO request)
+    public async Task<IActionResult> ConvertImage([FromForm] ConvertImageDto request)
     {
         Console.WriteLine("🟨 [CONTROLLER] === REQUEST RECEIVED ===");
         Console.WriteLine($"🟨 [CONTROLLER] Content-Type: {Request.ContentType}");
