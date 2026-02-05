@@ -1,3 +1,5 @@
+using System.Text;
+
 public class AsciiOptions
 {
     public int Width { get; set; } = 100;
@@ -10,5 +12,8 @@ public class AsciiOptions
 
     public bool Invert { get; set; } = false;
 
-    public string AsciiChars { get; set; } = "@$B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
+    public AsciiLibrary SelectedLibrary { get; set; } = AsciiLibrary.Classic;
+    
+    public string AsciiChars => AsciiLibraries.Get(SelectedLibrary);
+
 }
