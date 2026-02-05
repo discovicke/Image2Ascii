@@ -48,7 +48,7 @@ public class AsciiController : ControllerBase
                 Brightness = request.GetBrightness(),
                 Gamma = request.GetGamma(),
                 Invert = request.GetInvert(),
-                SelectedLibrary = request.SelectedLibrary ?? "Classic"
+                SelectedLibrary = request.AsciiLibrary ?? "Classic"
             };
 
             Console.WriteLine($"🟨 [CONTROLLER] AsciiOptions created: Width={options.Width}, Brightness={options.Brightness}, Gamma={options.Gamma}, Invert={options.Invert}");
