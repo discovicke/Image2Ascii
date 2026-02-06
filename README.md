@@ -1,4 +1,5 @@
 # Image2Ascii
+![C#](https://img.shields.io/badge/C%23-13.0-239120?logo=csharp&logoColor=white)
 ![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&logoColor=white)
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-Web%20API-512BD4)
 ![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
