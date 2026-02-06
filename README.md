@@ -1,10 +1,23 @@
 # Image2Ascii
+![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&logoColor=white)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-Web%20API-512BD4)
+![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
+![License](https://img.shields.io/badge/License-Portfolio%20%2F%20Educational-blue)
 
-A full-stack web application that converts images to ASCII art with real-time customization options.
+A full-stack web application that converts images into ASCII art with real-time customization and a clean, modern UI.
 
 ## Overview
 
-Image2Ascii is a three-tier application consisting of a core conversion library, a RESTful API, and a modern web interface. Users can upload images and instantly see them transformed into ASCII art with various character sets and adjustable parameters.
+**Image2Ascii** is a three-tier application designed with clear separation of concerns:
+
+- A core conversion library for image-to-ASCII logic
+- A RESTful API exposing the conversion pipeline
+- A modern Angular frontend for instant previews and live adjustments
+
+Users can upload an image and see it transformed into ASCII art while tuning visual parameters in real time.
+
 
 ## Features
 
