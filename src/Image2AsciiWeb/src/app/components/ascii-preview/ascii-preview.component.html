@@ -1,0 +1,32 @@
+<div class="ascii-preview-container">
+  <div class="output-header">
+    <h3>>> VISUAL_OUTPUT_MONITOR</h3>
+    <div class="output-meta">
+      W:{{ settings()?.width ?? 100 }} H:Auto | CHAR_SET: {{ settings()?.asciiLibrary ?? 'Classic' }}
+    </div>
+  </div>
+
+  <div class="ascii-viewport">
+    @if (isLoading()) {
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>>> PROCESSING...</p>
+      </div>
+    } @else if (ascii()) {
+      <pre class="ascii-output" [style.color]="settings()?.chromatic ? 'var(--color-text-primary)' : 'var(--color-accent-green)'">{{ ascii() }}</pre>
+    } @else {
+      <div class="placeholder">
+        <p>AWAITING_INPUT_SIGNAL...</p>
+      </div>
+    }
+  </div>
+
+  <div class="output-actions">
+    <button class="btn-text btn-bracket" (click)="copyToClipboard()">
+      <span class="bracket">[</span><span class="btn-content">{{ copySuccess ? '     COPIED!     ' : ' COPY_TO_CLIPBOARD ' }}</span><span class="bracket">]</span>
+    </button>
+    <button class="btn-text btn-bracket" (click)="downloadAsText()">
+      <span class="bracket">[</span><span class="btn-content"> SAVE_DISK </span><span class="bracket">]</span>
+    </button>
+  </div>
+</div>

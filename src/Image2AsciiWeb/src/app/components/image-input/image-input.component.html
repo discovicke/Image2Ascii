@@ -1,0 +1,39 @@
+<div class="panel-header">
+  <h3>>> INPUT_CONTROLS</h3>
+</div>
+
+<div class="control-group">
+  <div
+    class="drop-zone"
+    [class.active]="selectedFileName"
+    appDragDrop
+    (fileDropped)="onFileDrop($event)"
+    (click)="triggerFileInput()"
+  >
+    @if (!selectedFileName) {
+      <div class="drop-zone-content">
+        [ CLICK_TO_MOUNT_SOURCE ]
+      </div>
+    } @else {
+      <div class="file-info">
+        > SRC: {{ selectedFileName }}<br>
+        > SIZE: {{ selectedFileSize }}<br>
+        > TYPE: IMG/{{ selectedFileType }}
+      </div>
+    }
+
+    <input
+      type="file"
+      id="file-input"
+      accept="image/*"
+      (change)="onFileChange($event)"
+      style="display: none"
+    />
+  </div>
+</div>
+
+@if (error) {
+  <div class="control-group error-group">
+    <div class="error">> ERROR: {{ error }}</div>
+  </div>
+}

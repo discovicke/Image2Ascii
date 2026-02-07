@@ -1,0 +1,8 @@
+<div class="terminal-log">
+  @for (log of terminalLog.logs(); track log.timestamp + log.message) {
+    <div class="log-entry" [class]="log.type">
+      <span class="timestamp">[{{ log.timestamp }}]</span>
+      <span class="message">> {{ log.message }}</span>
+    </div>
+  }
+</div>
