@@ -105,7 +105,6 @@ Allowed origins:
 |-------|-----------|
 | **Backend** | .NET 8.0, ASP.NET Core, SixLabors.ImageSharp |
 | **Frontend** | Angular 21, TypeScript 5.9, RxJS, SCSS |
-| **Testing** | Vitest 4.0 |
 | **Deployment** | Docker, Vercel, Render |
 
 ## How It Works
