@@ -1,15 +1,13 @@
 footer {
-  background: #34495e;
-  color: white;
+  background: #141518; /* --color-bg-panel */
+  border-top: 1px solid #33363d; /* --color-border */
+  color: #75787d; /* --color-text-muted */
   padding: 1rem;
   text-align: center;
   margin-top: auto;
-  a {
-    color: #3498db;
-    text-decoration: none;
-  }
+  font-size: 12px;
 
-  a:hover {
-    text-decoration: underline;
+  a {
+    /* Inherits global a styles */
   }
 }
