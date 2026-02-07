@@ -144,40 +144,4 @@ select {
     border-color: var(--color-accent-amber);
     color: var(--color-accent-amber);
   }
-
-  /* When an option is hovered in the open dropdown (Chrome, Edge, etc.) */
-  option:hover {
-    background: rgba(255,176,0,0.12); /* amber tint */
-    color: var(--color-text-primary);
-  }
-
-  /* Selected option in the list */
-  option:checked, option[selected] {
-    background: var(--color-accent-amber);
-    color: var(--color-bg-base);
-  }
-
-  /* Stronger styling for hovered/active option rows in native selects
-     Note: native <select>/<option> styling is limited and varies between engines.
-     This uses !important and multiple selectors to increase coverage on desktop browsers.
-     Mobile native pickers will still use platform UI.
-  */
-  option:hover,
-  option:focus,
-  option:active {
-    background: var(--color-accent-amber) !important;
-    color: var(--color-bg-base) !important;
-  }
-
-  /* Fallback for the currently selected item shown in some browsers */
-  option[selected] {
-    background: var(--color-accent-amber) !important;
-    color: var(--color-bg-base) !important;
-  }
-}
-
-/* Firefox sometimes requires higher specificity — target option states again */
-select option:hover, select option:focus, select option:active {
-  background: var(--color-accent-amber) !important;
-  color: var(--color-bg-base) !important;
 }
