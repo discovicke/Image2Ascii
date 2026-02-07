@@ -118,6 +118,18 @@ input[type="range"] {
   &.active {
     color: var(--color-accent-amber);
   }
+
+  /* Fixed-width checkbox brackets */
+  .bracket {
+    /* Brackets stay in place */
+  }
+
+  .checkbox-content {
+    display: inline-block;
+    width: 1ch; /* Exactly 1 character width */
+    text-align: center;
+    white-space: pre; /* Preserve space character */
+  }
 }
 
 /* Select styling */

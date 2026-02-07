@@ -113,3 +113,21 @@
     color: #b78607;
   }
 }
+
+/* Fixed-width bracket buttons */
+.btn-bracket {
+  display: inline-flex;
+  align-items: center;
+
+  .bracket {
+    color: var(--color-accent-amber);
+  }
+
+  .btn-content {
+    /* Monospace ensures each character is same width */
+    font-family: 'IBM Plex Mono', monospace;
+    text-align: center;
+    white-space: pre; /* Preserve spaces */
+  }
+}
+

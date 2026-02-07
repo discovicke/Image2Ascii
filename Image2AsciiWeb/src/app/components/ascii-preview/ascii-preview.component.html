@@ -22,13 +22,11 @@
   </div>
 
   <div class="output-actions">
-    <button class="btn-text" (click)="copyToClipboard()">
-      @if (copySuccess) {
-        [ COPIED! ]
-      } @else {
-        [ COPY_TO_CLIPBOARD ]
-      }
+    <button class="btn-text btn-bracket" (click)="copyToClipboard()">
+      <span class="bracket">[</span><span class="btn-content">{{ copySuccess ? '     COPIED!     ' : ' COPY_TO_CLIPBOARD ' }}</span><span class="bracket">]</span>
     </button>
-    <button class="btn-text" (click)="downloadAsText()">[ SAVE_DISK ]</button>
+    <button class="btn-text btn-bracket" (click)="downloadAsText()">
+      <span class="bracket">[</span><span class="btn-content"> SAVE_DISK </span><span class="bracket">]</span>
+    </button>
   </div>
 </div>

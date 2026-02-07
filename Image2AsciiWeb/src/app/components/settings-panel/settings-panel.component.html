@@ -91,14 +91,14 @@
       [class.active]="settings().invert"
       (click)="onInvertChange(!settings().invert)"
     >
-      [ {{ settings().invert ? 'X' : ' ' }} ] INVERT_LUMA
+      <span class="bracket">[</span><span class="checkbox-content">{{ settings().invert ? 'X' : ' ' }}</span><span class="bracket">]</span> INVERT_LUMA
     </button>
     <button
       class="toggle-btn"
       [class.active]="settings().chromatic"
       (click)="onChromaticChange(!settings().chromatic)"
     >
-      [ {{ settings().chromatic ? 'X' : ' ' }} ] CHROMATIC
+      <span class="bracket">[</span><span class="checkbox-content">{{ settings().chromatic ? 'X' : ' ' }}</span><span class="bracket">]</span> CHROMATIC
     </button>
   </div>
 </div>
