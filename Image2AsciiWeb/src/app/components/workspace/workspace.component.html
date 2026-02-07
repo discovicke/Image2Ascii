@@ -1,16 +1,19 @@
 <div class="workspace">
-  <div class="left-column">
+  <!-- SIDEBAR (INPUT MODULE) -->
+  <aside class="panel sidebar">
     <app-image-input (fileSelected)="onFileSelected($event)" />
     <app-settings-panel
       [settings]="settings()"
       (settingsChanged)="onSettingsChanged($event)"
     />
-  </div>
+  </aside>
 
-  <div class="right-column">
+  <!-- MAIN (OUTPUT MONITOR) -->
+  <main class="panel output-area">
     <app-ascii-preview
       [ascii]="asciiService.ascii()"
       [isLoading]="isLoading()"
+      [settings]="settings()"
     />
-  </div>
+  </main>
 </div>

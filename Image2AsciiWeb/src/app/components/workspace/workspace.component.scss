@@ -1,24 +1,26 @@
 .workspace {
   display: grid;
-  grid-template-columns: 350px 1fr; /* Fixed width for tools, rest for preview */
-  gap: 24px; /* --space-lg */
-  padding: 24px; /* --space-lg */
-  flex: 1; /* Take remaining space */
+  grid-template-columns: 340px 1fr;
+  overflow: hidden;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
   }
 }
 
-.left-column {
+.panel {
   display: flex;
   flex-direction: column;
-  gap: 24px; /* --space-lg */
 }
 
-.right-column {
-  display: flex;
-  flex-direction: column;
-  gap: 24px; /* --space-lg */
-  min-width: 0; /* Prevents overflow in grid/flex */
+.sidebar {
+  border-right: 1px solid var(--color-border);
+  background: var(--color-bg-panel);
+  padding: 0;
+  overflow-y: auto;
+}
+
+.output-area {
+  background: var(--color-bg-base);
+  position: relative;
 }
