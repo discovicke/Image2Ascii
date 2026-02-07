@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  api:
+    build: ./Image2AsciiApi
+    ports:
+      - "5000:8080"
+  
+  web:
+    build: ./Image2AsciiWeb
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
