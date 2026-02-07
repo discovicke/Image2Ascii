@@ -1,6 +1,14 @@
 :host {
   display: block;
   flex-shrink: 0; /* Don't shrink */
+
+  @media (max-width: 900px) {
+    flex-shrink: 1;
+    min-height: 0;
+    overflow-y: auto;
+    max-height: 50vh;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .settings-panel {
