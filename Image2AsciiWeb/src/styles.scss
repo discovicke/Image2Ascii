@@ -1,1 +1,262 @@
-/* You can add global styles to this file, and also import other style files */
+/* -------------------------------------------------------------------------
+   TERMINAL UI DESIGN SYSTEM
+   Theme: Retro-Digital / Industrial / Tool-Oriented
+   -------------------------------------------------------------------------
+*/
+
+/* 1. TYPOGRAFI & IMPORT */
+/* IBM Plex Mono: Utstrålar teknisk autenticitet och precision. */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  /* 2. FÄRGPALETT (CSS Custom Properties för runtime-flexibilitet) */
+
+  /* Off-black bas: Inte #000, utan en djup kol/natt-ton för att minska ögontrötthet */
+  --color-bg-base: #0a0b0d;
+  --color-bg-panel: #141518; /* Något ljusare för "ytor" */
+
+  /* Text: Ljusgrå snarare än vit för att efterlikna gammal fosfor-avmattning */
+  --color-text-primary: #e0e0e0;
+  --color-text-muted: #75787d;
+  --color-border: #33363d;
+
+  /* Accentfärger (Funktionella) */
+  --color-accent-amber: #ffb000;  /* Varning, Fokus, Systemfeedback */
+  --color-accent-blue: #4d96ff;   /* Info, Sekundär data, Strukturer */
+  --color-accent-green: #20c20e;  /* Live, Output, Aktivt tillstånd (Fosfor) */
+  --color-error: #ff3333;         /* Kritiska fel */
+
+  /* 3. SPACING & GRID (Rytm) */
+  --unit: 4px; /* Atomär enhet */
+
+  --space-xs: calc(var(--unit) * 1);  /* 4px */
+  --space-sm: calc(var(--unit) * 2);  /* 8px */
+  --space-md: calc(var(--unit) * 4);  /* 16px */
+  --space-lg: calc(var(--unit) * 6);  /* 24px */
+  --space-xl: calc(var(--unit) * 10); /* 40px */
+
+  --border-width: 1px;
+  --border-radius: 0px; /* Strikt rektangulär estetik */
+}
+
+/* 4. SCSS VARIABLER (För enklare användning i pre-processing) */
+$font-stack-mono: 'IBM Plex Mono', 'Menlo', 'Courier New', monospace;
+
+$c-bg: var(--color-bg-base);
+$c-panel: var(--color-bg-panel);
+$c-text: var(--color-text-primary);
+$c-muted: var(--color-text-muted);
+$c-border: var(--color-border);
+
+$c-amber: var(--color-accent-amber);
+$c-blue: var(--color-accent-blue);
+$c-green: var(--color-accent-green);
+$c-err: var(--color-error);
+
+/* Spacing shortcuts */
+$sp-xs: var(--space-xs);
+$sp-sm: var(--space-sm);
+$sp-md: var(--space-md);
+$sp-lg: var(--space-lg);
+$sp-xl: var(--space-xl);
+
+/* 5. GLOBAL RESET & BASE STYLES */
+
+* {
+  box-sizing: border-box;
+  /* Tar bort standard "mjukhet" i rendering för krispigare text */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: $c-bg;
+  color: $c-text;
+  font-family: $font-stack-mono;
+  font-size: 14px; /* Terminal standard */
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Inga outlines, vi bygger egna fokus-stater */
+button:focus, input:focus, textarea:focus {
+  outline: none;
+}
+
+/* 6. UI KOMPONENTER (Typografi & Element) */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: $sp-md;
+  color: $c-text;
+  letter-spacing: -0.5px;
+  text-transform: uppercase; /* Tekniskt uttryck */
+}
+
+h1 { font-size: 24px; color: $c-blue; border-bottom: 1px solid $c-border; padding-bottom: $sp-sm; }
+h2 { font-size: 20px; color: $c-text; }
+h3 { font-size: 16px; color: $c-muted; }
+
+a {
+  color: $c-blue;
+  text-decoration: none;
+  transition: color 0.2s steps(4); /* Steps ger en "digital" animation istället för mjuk */
+
+  &:hover {
+    color: lighten(#4d96ff, 15%);
+    text-decoration: underline;
+  }
+}
+
+/* Terminal Input Styles */
+input, textarea, select {
+  background-color: $c-panel;
+  border: 1px solid $c-border;
+  color: $c-green; /* User input känns "Live" */
+  font-family: $font-stack-mono;
+  padding: $sp-sm;
+  font-size: 14px;
+  width: 100%;
+  border-radius: 0;
+
+  &:focus {
+    border-color: $c-green;
+    box-shadow: 0 0 0 1px $c-green inset; /* Skarp inre glöd istället för drop-shadow */
+  }
+
+  &::placeholder {
+    color: darken(#75787d, 20%);
+    font-style: italic;
+  }
+}
+
+/* Verktygsknappar - Brutala och tydliga */
+button {
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid $c-blue;
+  color: $c-blue;
+  padding: $sp-sm $sp-lg;
+  font-family: $font-stack-mono;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  transition: all 0.1s steps(2);
+
+  &:hover {
+    background: rgba(77, 150, 255, 0.1);
+    border-color: lighten(#4d96ff, 10%);
+    color: lighten(#4d96ff, 10%);
+  }
+
+  &:active {
+    background: $c-blue;
+    color: $c-bg;
+  }
+
+  /* Variant: Primary Action */
+  &.btn-primary {
+    border-color: $c-green;
+    color: $c-green;
+
+    &:hover {
+      background: rgba(32, 194, 14, 0.1);
+      box-shadow: 0 0 8px rgba(32, 194, 14, 0.2); /* Subtil fosfor-glöd */
+    }
+
+    &:active {
+      background: $c-green;
+      color: $c-bg;
+    }
+  }
+
+  /* Variant: Warning/Alert */
+  &.btn-warning {
+    border-color: $c-amber;
+    color: $c-amber;
+  }
+
+  &:disabled {
+    border-color: $c-border;
+    color: $c-muted;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+}
+
+/* 7. VERKTYGSKLASSER (Utility Classes) */
+
+/* Scrollbars - Minimalistiska och mörka */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: $c-bg;
+  border-left: 1px solid $c-border;
+}
+::-webkit-scrollbar-thumb {
+  background: $c-border;
+  border: 2px solid $c-bg; /* Ger "padding" effekt */
+
+  &:hover {
+    background: $c-muted;
+  }
+}
+
+/* Selection - När användaren markerar text (viktigt för ASCII-kopiering) */
+::selection {
+  background: $c-green;
+  color: $c-bg;
+}
+
+/* ASCII Output Container Class */
+.ascii-output {
+  font-family: $font-stack-mono;
+  white-space: pre; /* Bevarar formateringen */
+  overflow-x: auto;
+  line-height: 1.0; /* Kritisk för ASCII-konst så att det inte blir vertikala glapp */
+  color: $c-green;
+  background: $c-panel;
+  border: 1px solid $c-border;
+  padding: $sp-md;
+  font-size: 10px; /* Ofta behöver ASCII vara mindre för att få plats */
+}
+
+/* Blinking Cursor Utility */
+.cursor-blink::after {
+  content: '█';
+  animation: blink 1s step-end infinite;
+  color: $c-green;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Utility för "Scanlines" - valfritt overlay för retrokänsla */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(0,0,0,0.1) 50%,
+      rgba(0,0,0,0.1)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.3;
+}

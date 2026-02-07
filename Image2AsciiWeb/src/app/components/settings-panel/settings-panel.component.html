@@ -87,11 +87,14 @@
 
 
   <div class="setting-group checkbox-group">
-    <label><input
-      type="checkbox"
-      [checked]="settings().invert"
-      (change)="onInvertChange($any($event.target).checked)"
-    />
+    <label class="custom-checkbox-label">
+      <input
+        type="checkbox"
+        [checked]="settings().invert"
+        (change)="onInvertChange($any($event.target).checked)"
+        class="custom-checkbox-input"
+      />
+      <span class="custom-checkbox"></span>
       Invert Colors
     </label>
   </div>
