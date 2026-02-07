@@ -1,0 +1,14 @@
+@if (showBanner()) {
+  <div class="status-banner" [class]="status()">
+    <div class="status-content">
+      <span class="status-icon">{{ statusIcon() }}</span>
+      <span class="status-text">{{ statusText() }}</span>
+      @if (status() === 'waking') {
+        <span class="retry-count">[ATTEMPT {{ retryCount() + 1 }}]</span>
+      }
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" [style.animation-duration]="'2s'"></div>
+    </div>
+  </div>
+}
