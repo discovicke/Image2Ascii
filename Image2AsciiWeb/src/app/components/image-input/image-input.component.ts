@@ -11,6 +11,8 @@ import { TerminalLogService } from '../../services/terminal-log.service';
   styleUrl: './image-input.component.scss'
 })
 export class ImageInputComponent {
+  private terminalLog = inject(TerminalLogService);
+
   fileSelected = output<File>();
 
   protected selectedFileName = '';
@@ -37,10 +39,13 @@ export class ImageInputComponent {
 
   private handleFile(file: File) {
     this.error = '';
+    const fileSize = this.formatFileSize(file.size);
+    const fileType = file.type.replace('image/', '').toUpperCase();
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
       this.error = 'Please select an image file';
+      this.terminalLog.error('INVALID FILE TYPE');
       return;
     }
 
@@ -48,12 +53,17 @@ export class ImageInputComponent {
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       this.error = 'File size must be less than 5MB';
+      this.terminalLog.logFileTooLarge(file.name, fileSize);
       return;
     }
 
     this.selectedFileName = file.name;
-    this.selectedFileSize = this.formatFileSize(file.size);
-    this.selectedFileType = file.type.replace('image/', '').toUpperCase();
+    this.selectedFileSize = fileSize;
+    this.selectedFileType = fileType;
+
+    // Log successful mount
+    this.terminalLog.logFileMount(file.name, fileSize, fileType);
+
     this.fileSelected.emit(file);
   }
 
