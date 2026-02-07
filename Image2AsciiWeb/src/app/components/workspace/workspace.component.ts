@@ -19,6 +19,8 @@ import { TerminalLogComponent } from '../terminal-log/terminal-log.component';
   styleUrl: './workspace.component.scss'
 })
 export class WorkspaceComponent {
+  private terminalLog = inject(TerminalLogService);
+
   protected selectedFile = signal<File | null>(null);
   protected settings = signal<AsciiSettings>({
     width: 100,
@@ -40,6 +42,13 @@ export class WorkspaceComponent {
         this.generateAscii(file, settings);
       }
     });
+
+    // Spawn atmospheric messages periodically
+    setInterval(() => {
+      if (Math.random() < 0.3) { // 30% chance
+        this.terminalLog.spawnAtmosphericMessage();
+      }
+    }, 15000);
   }
 
   onFileSelected(file: File) {
@@ -55,16 +64,19 @@ export class WorkspaceComponent {
     console.log('📤 Sending to API:', { file: file.name, settings });
     this.isLoading.set(true);
 
+    this.terminalLog.logBatchStart(settings.width, settings.brightness, settings.gamma);
+
     this.asciiService.generate(file, settings).subscribe({
       next: (response) => {
         console.log('Got ASCII response:', response.ascii.substring(0, 100) + '...');
         this.isLoading.set(false);
+        this.terminalLog.logBatchComplete(response.ascii.length);
       },
       error: (err: unknown) => {
         console.error('API Error:', err);
         this.isLoading.set(false);
+        this.terminalLog.logBatchError('CONNECTION FAILED');
       }
     });
   }
-
 }
