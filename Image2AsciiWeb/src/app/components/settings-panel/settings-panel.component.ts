@@ -14,51 +14,47 @@ export class SettingsPanelComponent {
   settings = input.required<AsciiSettings>();
   settingsChanged = output<AsciiSettings>();
   asciiLibraries: AsciiLibrary[] = [
-    { key: 'Detailed', label: 'Detailed (Fine)', contrast: 'low', category: 'Soft / Smooth' },
-    { key: 'Soft1', label: 'Soft (Smooth)', contrast: 'low', category: 'Soft / Smooth' },
-    { key: 'Matrix', label: 'Matrix', contrast: 'low', category: 'Retro / digital' },
-    { key: 'LCD', label: 'LCD', contrast: 'low', category: 'Retro / digital' },
-    { key: 'SoftDots', label: 'Dots', contrast: 'low', category: 'Minimal' },
-    { key: 'Dither1', label: 'Dither 1', contrast: 'low', category: 'Dithering', warning: 'High-contrast images' },
-    { key: 'Dither2', label: 'Dither (Ultra)', contrast: 'low', category: 'Dithering', warning: 'High contrast image' },
-    { key: 'StarsAndSky', label: 'Stars', contrast: 'low', category: 'Experimental' },
-    { key: 'Classic', label: 'Classic', contrast: 'medium', category: 'Soft / Smooth' },
-    { key: 'Soft2Short', label: 'Soft (Balanced)', contrast: 'medium', category: 'Soft / Smooth' },
-    { key: 'PrintFriendly', label: 'Print Friendly', contrast: 'medium', category: 'Print / symbols' },
-    { key: 'Numbers', label: 'Numbers', contrast: 'medium', category: 'Print / symbols' },
-    { key: 'Thin', label: 'Thin', contrast: 'medium', category: 'Minimal' },
-    { key: 'Minimal', label: 'Minimal', contrast: 'high', category: 'Minimal' },
-    { key: 'HighContrast1', label: 'High Contrast', contrast: 'high', category: 'High contrast' },
-    { key: 'Minimal3', label: 'Minimal (Bold)', contrast: 'high', category: 'Minimal' },
+    { key: 'Detailed', label: 'Detailed (Full Range)', contrast: 'low' },
+    { key: 'Soft1', label: 'Soft (Smooth Tones)', contrast: 'low' },
+    { key: 'Matrix', label: 'Matrix (Digital)', contrast: 'low' },
+    { key: 'LCD', label: 'LCD (Segmented)', contrast: 'low' },
+    { key: 'SoftDots', label: 'Dots (Stippled)', contrast: 'high' },
+    { key: 'Dither1', label: 'Dither (Patterned)', contrast: 'low', warning: 'High contrast image' },
+    { key: 'Dither2', label: 'Dither (Ultra Dense)', contrast: 'low', warning: 'High contrast image' },
+    { key: 'StarsAndSky', label: 'Stars (Silhouette)', contrast: 'high' },
+
+    { key: 'Classic', label: 'Classic (Standard)', contrast: 'medium' },
+    { key: 'Soft2Short', label: 'Soft (Balanced)', contrast: 'medium' },
+    { key: 'PrintFriendly', label: 'Print (Readable)', contrast: 'medium' },
+    { key: 'Numbers', label: 'Numbers (Numeric)', contrast: 'medium' },
+    { key: 'Thin', label: 'Thin (Line Art)', contrast: 'high' },
+
+    { key: 'Minimal', label: 'Minimal (Sparse)', contrast: 'high' },
+    { key: 'HighContrast1', label: 'High Contrast (Hard)', contrast: 'high' },
+    { key: 'Minimal3', label: 'Minimal (Bold)', contrast: 'high' },
   ];
 
   get groupedLibraries(): Array<{ label: string; libs: AsciiLibrary[] }> {
-    const map = new Map<
-      string,
-      { libs: AsciiLibrary[]; contrasts: Set<AsciiLibrary['contrast']> }
-    >();
+    // Group all libraries by contrast (low / medium / high)
+    const groups: Record<string, AsciiLibrary[]> = { low: [], medium: [], high: [] };
 
     for (const lib of this.asciiLibraries) {
-      const entry =
-        map.get(lib.category) ??
-        { libs: [], contrasts: new Set<AsciiLibrary['contrast']>() };
-
-      entry.libs.push(lib);
-      entry.contrasts.add(lib.contrast);
-      map.set(lib.category, entry);
+      const c = lib.contrast ?? 'low';
+      if (!groups[c]) groups[c] = [];
+      groups[c].push(lib);
     }
 
+    // Sort libs inside each contrast group by label for predictable ordering
+    for (const k of Object.keys(groups)) {
+      groups[k].sort((a, b) => a.label.localeCompare(b.label));
+    }
+
+    // Build ordered result: Low, Medium, High
     const result: Array<{ label: string; libs: AsciiLibrary[] }> = [];
 
-    for (const [category, { libs, contrasts }] of map.entries()) {
-      const contrastsArr = Array.from(contrasts);
-      const label =
-        contrastsArr.length === 1
-          ? `${this.humanContrast(contrastsArr[0])} · ${category}`
-          : category;
-
-      result.push({ label, libs });
-    }
+    if (groups['low'].length) result.push({ label: this.humanContrast('low'), libs: groups['low'] });
+    if (groups['medium'].length) result.push({ label: this.humanContrast('medium'), libs: groups['medium'] });
+    if (groups['high'].length) result.push({ label: this.humanContrast('high'), libs: groups['high'] });
 
     return result;
   }
@@ -101,6 +97,5 @@ type AsciiLibrary = {
   key: string;
   label: string;
   contrast: 'low' | 'medium' | 'high';
-  category: string;
   warning?: string;
 };
