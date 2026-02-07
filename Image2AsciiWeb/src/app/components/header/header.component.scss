@@ -1,17 +1,60 @@
-header {
-  padding: 2rem 2rem 0 2rem;
-  /* border-bottom: 1px solid #33363d; Consider if border is needed, global h1 has one */
+:host {
+  border-bottom: 1px solid var(--color-border);
+  display: block;
+  padding: 8px 24px;
+  background: var(--color-bg-base);
 
-  h1 {
-    /* Inherits global h1 styles:
-       font-size: 24px; color: $c-blue; border-bottom...
-    */
-    margin-bottom: 0.5rem;
+  .app-header,
+  > header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* brand left, system-status right */
+    align-items: center;
+    width: 100%;
   }
 
-  p {
-    color: #75787d; /* --color-text-muted */
-    margin: 0;
-    font-size: 14px;
+  .brand {
+    color: var(--color-accent-amber);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    font-size: 20px;
+
+    .icon {
+      margin-right: 4px;
+    }
+
+    .version {
+      color: var(--color-text-muted);
+      font-weight: 400;
+      font-size: 11px;
+      margin-left: 8px;
+    }
+  }
+
+  .system-status {
+    font-size: 11px;
+    color: var(--color-accent-green);
+    font-family: 'IBM Plex Mono', monospace;
+
+    .label {
+      color: var(--color-text-muted);
+    }
+
+    .separator {
+      margin: 0 8px;
+      color: var(--color-border);
+    }
+
+    .blink {
+      animation: blink 1s step-end infinite;
+      display: inline-block;
+      margin-left: 4px;
+    }
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
   }
 }
