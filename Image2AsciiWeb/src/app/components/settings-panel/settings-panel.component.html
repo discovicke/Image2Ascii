@@ -1,11 +1,12 @@
 <div class="settings-panel">
   <h2>Settings</h2>
 
-  <div class="setting-group">
-    <label for="width">
-      Width
-      <span class="value">{{ settings().width }}</span>
-    </label>
+  <!-- Width Slider -->
+  <div class="control-group">
+    <div class="label-row">
+      <label>GRID_WIDTH</label>
+      <span class="value">{{ settings().width }} char</span>
+    </div>
     <input
       type="range"
       id="width"
@@ -14,17 +15,17 @@
       [value]="settings().width"
       (input)="onWidthChange($any($event.target).value)"
     />
-    <div class="range-labels">
-      <span>50</span>
-      <span>200</span>
+    <div class="tick-marks">
+      <span>|</span><span>|</span><span>|</span><span>|</span><span>|</span>
     </div>
   </div>
 
-  <div class="setting-group">
-    <label for="brightness">
-      Brightness
+  <!-- Brightness Slider -->
+  <div class="control-group">
+    <div class="label-row">
+      <label>SIGNAL_BRIGHTNESS</label>
       <span class="value">{{ settings().brightness }}</span>
-    </label>
+    </div>
     <input
       type="range"
       id="brightness"
@@ -34,17 +35,14 @@
       [value]="settings().brightness"
       (input)="onBrightnessChange($any($event.target).value)"
     />
-    <div class="range-labels">
-      <span>-1</span>
-      <span>1</span>
-    </div>
   </div>
 
-  <div class="setting-group">
-    <label for="gamma">
-      Gamma
+  <!-- Gamma Slider -->
+  <div class="control-group">
+    <div class="label-row">
+      <label>GAMMA_CORRECT</label>
       <span class="value">{{ settings().gamma }}</span>
-    </label>
+    </div>
     <input
       type="range"
       id="gamma"
@@ -54,15 +52,13 @@
       [value]="settings().gamma"
       (input)="onGammaChange($any($event.target).value)"
     />
-    <div class="range-labels">
-      <span>0.5</span>
-      <span>2.0</span>
-    </div>
   </div>
 
-  <div class="setting-group">
-    <label for="asciiLibrary">ASCII Library</label>
-
+  <!-- ASCII Library Select -->
+  <div class="control-group">
+    <div class="label-row">
+      <label>CHAR_SET</label>
+    </div>
     <select
       id="asciiLibrary"
       (change)="onAsciiLibraryChange($any($event.target).value)"
@@ -85,17 +81,17 @@
     </select>
   </div>
 
-
-  <div class="setting-group checkbox-group">
-    <label class="custom-checkbox-label">
-      <input
-        type="checkbox"
-        [checked]="settings().invert"
-        (change)="onInvertChange($any($event.target).checked)"
-        class="custom-checkbox-input"
-      />
-      <span class="custom-checkbox"></span>
-      Invert Colors
-    </label>
+  <!-- Toggles -->
+  <div class="control-group toggles">
+    <div class="label-row">
+      <label>PROCESSING_MODE</label>
+    </div>
+    <button
+      class="toggle-btn"
+      [class.active]="settings().invert"
+      (click)="onInvertChange(!settings().invert)"
+    >
+      [ {{ settings().invert ? 'X' : ' ' }} ] INVERT_LUMA
+    </button>
   </div>
 </div>

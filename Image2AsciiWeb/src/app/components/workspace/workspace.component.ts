@@ -22,7 +22,8 @@ export class WorkspaceComponent {
     width: 100,
     brightness: 0,
     gamma: 1,
-    invert: false
+    invert: false,
+    asciiLibrary: 'Classic'
   });
   protected isLoading = signal(false);
 

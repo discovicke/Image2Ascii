@@ -1,168 +1,143 @@
 .settings-panel {
   background: var(--color-bg-panel);
-  border: 1px solid var(--color-border);
-  padding: var(--space-md);
-  box-shadow: none;
-}
+  padding: 0;
 
-h2 {
-  // Global H2 applies
-  margin: 0 0 1.5rem 0;
-}
-
-.setting-group {
-  margin-bottom: 1.5rem;
-
-  &:last-child {
-    margin-bottom: 0;
+  h2 {
+    display: none; // Hide original h2, we use control-group styling
   }
 }
 
-label {
+.control-group {
+  padding: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.label-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  font-weight: 400; /* Regular weight for mono */
-  color: var(--color-text-primary);
-  font-size: 0.95rem;
+  margin-bottom: 12px;
+  font-size: 11px;
+  color: var(--color-text-muted);
 }
 
 .value {
-  color: var(--color-accent-blue);
-  font-weight: 600;
+  color: var(--color-accent-amber);
 }
 
 /* Custom Range Slider for Terminal Look */
 input[type="range"] {
+  -webkit-appearance: none;
   width: 100%;
-  height: 4px; /* Thinner line */
-  border-radius: 0;
-  background: var(--color-border);
-  outline: none;
+  background: transparent;
   cursor: pointer;
-  -webkit-appearance: none; /* Needed to reset default styling */
-  padding: 0; /* Override global input padding */
-  border: none; /* Override global input border */
+  padding: 0;
+  border: none;
+  height: auto;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    border-radius: 0; /* Square thumb */
-    background: var(--color-accent-blue);
-    cursor: pointer;
-    transition: none;
-    margin-top: -4px; /* Center on track */
-
-    &:hover {
-      background: #c4ddff;
-    }
+    height: 14px;
+    width: 14px;
+    background: var(--color-accent-amber);
+    border: 1px solid var(--color-accent-amber);
+    margin-top: -6px;
+    border-radius: 0;
   }
 
   &::-webkit-slider-runnable-track {
     width: 100%;
-    height: 4px;
+    height: 2px;
     background: var(--color-border);
-    border-radius: 0;
+  }
+
+  &:focus::-webkit-slider-thumb {
+    background: var(--color-accent-amber);
+    box-shadow: 0 0 10px rgba(255, 172, 77, 0.4);
   }
 
   &::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
+    height: 14px;
+    width: 14px;
+    background: var(--color-bg-base);
+    border: 1px solid var(--color-accent-amber);
     border-radius: 0;
-    background: var(--color-accent-blue);
-    cursor: pointer;
-    border: none;
-
-    &:hover {
-      background: lighten(#4d96ff, 10%);
-    }
   }
 
   &::-moz-range-track {
-     width: 100%;
-    height: 4px;
+    width: 100%;
+    height: 2px;
     background: var(--color-border);
-    border-radius: 0;
   }
 }
 
-.range-labels {
+.tick-marks {
   display: flex;
   justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  margin-top: 0.25rem;
-  font-family: 'IBM Plex Mono', monospace;
+  margin-top: 4px;
+  color: var(--color-border);
+  font-size: 6px;
 }
 
-.checkbox-group {
+/* Toggles */
+.toggles {
   label {
-    cursor: pointer;
-    user-select: none;
-  }
-
-  input[type="checkbox"] {
-    margin-right: 0.5rem;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    background: var(--color-bg-panel);
-    color: var(--color-accent-green);
+    margin-bottom: 8px;
   }
 }
 
-.custom-checkbox-label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  gap: 0.5rem;
-  user-select: none;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.95rem;
-}
-
-.custom-checkbox-input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.custom-checkbox {
-  width: 18px;
-  height: 18px;
-  border: 2px solid var(--color-border);
-  background: var(--color-bg-panel);
-  display: inline-block;
-  vertical-align: middle;
-  border-radius: 0;
-  transition: border-color 0.1s;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.custom-checkbox-label .custom-checkbox-input:checked + .custom-checkbox {
-  border-color: var(--color-accent-green);
-  background: var(--color-accent-green);
-}
-
-.custom-checkbox::after {
-  content: '';
+.toggle-btn {
   display: block;
-  position: absolute;
-  left: 3px;
-  top: 3px;
-  width: 8px;
-  height: 8px;
-  background: var(--color-bg-base);
-  border-radius: 0;
-  opacity: 0;
-  transition: opacity 0.1s;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--color-text-muted);
+  padding: 8px 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.1s;
+  text-transform: uppercase;
+  letter-spacing: 0;
+
+  &:hover {
+    color: var(--color-text-primary);
+    background: transparent;
+  }
+
+  &.active {
+    color: var(--color-accent-amber);
+  }
 }
 
-.custom-checkbox-label .custom-checkbox-input:checked + .custom-checkbox::after {
-  opacity: 1;
+/* Select styling */
+select {
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  color: var(--color-accent-green);
+  font-family: 'IBM Plex Mono', monospace;
+  padding: 8px;
+  font-size: 12px;
+  width: 100%;
+  border-radius: 0;
+  cursor: pointer;
+
+  &:focus {
+    border-color: var(--color-accent-green);
+    outline: none;
+  }
+
+  option {
+    background: var(--color-bg-panel);
+    color: var(--color-text-primary);
+  }
+
+  optgroup {
+    color: var(--color-text-muted);
+  }
 }
