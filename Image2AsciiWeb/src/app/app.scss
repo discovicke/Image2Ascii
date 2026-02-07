@@ -1,7 +1,7 @@
 :host {
   display: block;
-  flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden; /* Prevent page-level scrolling */
 }
 
 .app-grid {
@@ -11,6 +11,7 @@
   margin: 0 auto;
   position: relative;
   z-index: 10;
+  overflow: hidden; /* Prevent grid from scrolling */
 }
 
 .crt-overlay {
