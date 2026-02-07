@@ -1,72 +1,49 @@
 .ascii-preview-container {
-  background: var(--color-bg-panel);
-  border: 1px solid var(--color-border);
-  border-radius: 0;
-  box-shadow: none;
   display: flex;
   flex-direction: column;
   height: 100%;
+  background: var(--color-bg-base);
 }
 
-.header {
+.output-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-md);
+  padding: 12px 20px;
   border-bottom: 1px solid var(--color-border);
-}
 
-h2 {
-  // Global
-  margin: 0;
-}
-
-.actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-/* Local button overrides if necessary to fit header context,
-   but assuming global button styles work well. We might just strip specific overrides. */
-button {
-  // Inheriting global button styles mostly.
-  background: transparent;
-  // Specific tweaks for header buttons if needed
-  padding: 0.4rem 0.8rem;
-
-  &.success {
-    border-color: var(--color-accent-green);
-    color: var(--color-accent-green);
-
-    &:hover {
-      background: rgba(32, 194, 14, 0.1);
-    }
-  }
-
-  svg {
-    flex-shrink: 0;
+  h3 {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin: 0;
+    letter-spacing: 1px;
   }
 }
 
-.preview-area {
+.output-meta {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.ascii-viewport {
   flex: 1;
   overflow: auto;
-  padding: var(--space-md);
-  min-height: 400px;
-  background: var(--color-bg-base); /* Slightly darker for the content area */
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 .ascii-output {
-  font-family: 'IBM Plex Mono', 'Courier New', monospace; /* Enforce specific mono font */
-  font-size: 10px; /* Fine print */
-  line-height: 1; /* Critical for ASCII art alignment */
-  letter-spacing: 0em; /* Monospaced fonts align by default, extra spacing breaks it */
-  white-space: pre;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  line-height: 8px;
   margin: 0;
-  color: var(--color-accent-green); /* Classic phosphor look */
-  text-align: center; /* Often looks better centered */
-  display: inline-block; /* Helps with centering */
-  min-width: 100%;
+  white-space: pre;
+  color: var(--color-accent-green);
 }
 
 .placeholder, .loading {
@@ -75,17 +52,14 @@ button {
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: var(--color-text-muted);
+  color: var(--color-border);
   text-align: center;
-
-  svg {
-    margin-bottom: 1rem;
-    color: var(--color-border);
-  }
 
   p {
     margin: 0;
-    font-size: 0.95rem;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
   }
 }
 
@@ -101,4 +75,27 @@ button {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+.output-actions {
+  border-top: 1px solid var(--color-border);
+  padding: 10px 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--color-accent-blue);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--color-text-primary);
+  }
 }

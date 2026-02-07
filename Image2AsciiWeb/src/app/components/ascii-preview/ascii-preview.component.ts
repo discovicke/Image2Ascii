@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AsciiSettings } from '../../services/ascii.service';
 
 @Component({
   selector: 'app-ascii-preview',
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
 export class AsciiPreviewComponent {
   ascii = input.required<string>();
   isLoading = input<boolean>(false);
+  settings = input<AsciiSettings>();
 
   protected copySuccess = false;
 
