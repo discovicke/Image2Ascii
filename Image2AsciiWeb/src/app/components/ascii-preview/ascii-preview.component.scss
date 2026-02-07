@@ -6,6 +6,7 @@
 }
 
 .output-header {
+  flex-shrink: 0; /* Don't shrink header */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -78,11 +79,13 @@
 }
 
 .output-actions {
+  flex-shrink: 0; /* Don't shrink footer */
   border-top: 1px solid var(--color-border);
   padding: 10px 20px;
   display: flex;
   gap: 20px;
   justify-content: flex-end;
+  background: var(--color-bg-panel); /* Give it a background so it stands out */
 }
 
 .btn-text {
