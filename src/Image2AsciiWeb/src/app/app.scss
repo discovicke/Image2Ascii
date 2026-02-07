@@ -6,7 +6,7 @@
 
 .app-grid {
   display: grid;
-  grid-template-rows: 48px 1fr;
+  grid-template-rows: 48px auto 1fr;
   height: 100vh;
   margin: 0 auto;
   position: relative;
