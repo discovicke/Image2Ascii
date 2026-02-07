@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface AsciiSettings {
   width: number;
@@ -17,7 +18,7 @@ export interface AsciiResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AsciiService {
-  private readonly apiUrl = 'http://localhost:5071/api/ascii';
+  private readonly apiUrl = environment.apiUrl;
 
   private currentImage = signal<File | null>(null);
   private currentAscii = signal<string>('');
