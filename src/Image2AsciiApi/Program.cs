@@ -11,7 +11,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "http://localhost:4200",
-                "https://asciiforge.vercel.app/"
+                "https://asciiforge.vercel.app"
                 )
             .AllowAnyHeader()
             .AllowAnyMethod();
@@ -26,6 +26,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapGet("/", () => "ASCII Forge API is running! 🚀");
+app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAngular");
