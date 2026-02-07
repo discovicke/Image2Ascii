@@ -3,7 +3,7 @@ import { Injectable, signal } from '@angular/core';
 export interface LogEntry {
   timestamp: string;
   message: string;
-  type: 'info' | 'success' | 'error' | 'system';
+  type: 'info' | 'success' | 'error' | 'warning' | 'system';
 }
 
 @Injectable({ providedIn: 'root' })
@@ -50,6 +50,10 @@ export class TerminalLogService {
 
   error(message: string) {
     this.addEntry(message, 'error');
+  }
+
+  warning(message: string) {
+    this.addEntry(message, 'warning');
   }
 
   system(message: string) {
