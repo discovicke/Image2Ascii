@@ -1,0 +1,42 @@
+.terminal-log {
+  padding: 20px 20px;
+  font-size: 10px;
+  border-top: 1px solid var(--color-border);
+  height: auto;
+  overflow-y: auto;
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  background: var(--color-bg-panel);
+}
+
+.log-entry {
+  line-height: 1.6;
+  display: flex;
+  gap: 6px;
+}
+
+.timestamp {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.message {
+  word-break: break-all;
+}
+
+/* Log types */
+.info {
+  color: var(--color-text-muted);
+}
+
+.success {
+  color: var(--color-accent-green);
+}
+
+.error {
+  color: var(--color-error);
+}
+
+.system {
+  color: var(--color-accent-amber);
+  opacity: 0.7;
+}
