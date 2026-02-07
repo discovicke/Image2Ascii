@@ -4,7 +4,6 @@
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-Web%20API-512BD4)
 ![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![License](https://img.shields.io/badge/License-Portfolio%20%2F%20Educational-blue)
 
 A full-stack web application that converts images into ASCII art with real-time customization and a clean, modern UI.
