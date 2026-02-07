@@ -85,6 +85,10 @@ export class SettingsPanelComponent {
     this.emitChange({ invert: value });
   }
 
+  onChromaticChange(value: boolean) {
+    this.emitChange({ chromatic: value });
+  }
+
   private emitChange(changes: Partial<AsciiSettings>) {
     this.settingsChanged.emit({
       ...this.settings(),

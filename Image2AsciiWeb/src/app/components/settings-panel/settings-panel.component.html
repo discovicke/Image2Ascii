@@ -93,5 +93,12 @@
     >
       [ {{ settings().invert ? 'X' : ' ' }} ] INVERT_LUMA
     </button>
+    <button
+      class="toggle-btn"
+      [class.active]="settings().chromatic"
+      (click)="onChromaticChange(!settings().chromatic)"
+    >
+      [ {{ settings().chromatic ? 'X' : ' ' }} ] CHROMATIC
+    </button>
   </div>
 </div>

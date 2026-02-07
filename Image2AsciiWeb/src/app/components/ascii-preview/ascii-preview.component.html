@@ -13,7 +13,7 @@
         <p>>> PROCESSING...</p>
       </div>
     } @else if (ascii()) {
-      <pre class="ascii-output">{{ ascii() }}</pre>
+      <pre class="ascii-output" [style.color]="settings()?.chromatic ? 'var(--color-text-primary)' : 'var(--color-accent-green)'">{{ ascii() }}</pre>
     } @else {
       <div class="placeholder">
         <p>AWAITING_INPUT_SIGNAL...</p>

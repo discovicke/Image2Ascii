@@ -23,7 +23,8 @@ export class WorkspaceComponent {
     brightness: 0,
     gamma: 1,
     invert: false,
-    asciiLibrary: 'Classic'
+    asciiLibrary: 'Classic',
+    chromatic: false
   });
   protected isLoading = signal(false);
 

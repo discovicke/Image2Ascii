@@ -8,6 +8,7 @@ export interface AsciiSettings {
   gamma: number;
   invert: boolean;
   asciiLibrary?: string;
+  chromatic?: boolean;
 }
 
 export interface AsciiResponse {
