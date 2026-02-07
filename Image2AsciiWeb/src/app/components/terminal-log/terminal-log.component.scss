@@ -1,8 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Take remaining space in sidebar */
+  min-height: 100px; /* Minimum height for log */
+  overflow: hidden;
+}
+
 .terminal-log {
-  padding: 20px 20px;
+  flex: 1;
+  min-height: 0; /* Critical for flex overflow */
+  padding: 10px 20px;
   font-size: 10px;
   border-top: 1px solid var(--color-border);
-  height: auto;
   overflow-y: auto;
   font-family: 'IBM Plex Mono', 'Courier New', monospace;
   background: var(--color-bg-panel);
