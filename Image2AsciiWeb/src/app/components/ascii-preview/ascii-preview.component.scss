@@ -88,14 +88,13 @@
 .btn-text {
   background: none;
   border: none;
-  color: var(--color-accent-blue);
+  color: var(--color-accent-amber);
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
   cursor: pointer;
   padding: 0;
 
   &:hover {
-    text-decoration: underline;
-    color: var(--color-text-primary);
+    color: #b78607;
   }
 }
