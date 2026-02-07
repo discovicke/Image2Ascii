@@ -11,6 +11,8 @@ import { TerminalLogService } from '../../services/terminal-log.service';
   styleUrl: './ascii-preview.component.scss'
 })
 export class AsciiPreviewComponent {
+  private terminalLog = inject(TerminalLogService);
+
   ascii = input.required<string>();
   isLoading = input<boolean>(false);
   settings = input<AsciiSettings>();
@@ -23,6 +25,7 @@ export class AsciiPreviewComponent {
 
     navigator.clipboard.writeText(text).then(() => {
       this.copySuccess = true;
+      this.terminalLog.logCopy();
       setTimeout(() => this.copySuccess = false, 2000);
     });
   }
@@ -38,5 +41,6 @@ export class AsciiPreviewComponent {
     link.download = `ascii-art-${Date.now()}.txt`;
     link.click();
     URL.revokeObjectURL(url);
+    this.terminalLog.logDownload();
   }
 }
