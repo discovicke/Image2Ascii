@@ -5,6 +5,7 @@ import { debounceTime } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { AsciiService, AsciiSettings } from '../../services/ascii.service';
 import { TerminalLogService } from '../../services/terminal-log.service';
+import { ApiStatusService } from '../../services/api-status.service';
 import { ImageInputComponent } from '../image-input/image-input.component';
 import { SettingsPanelComponent } from '../settings-panel/settings-panel.component';
 import { AsciiPreviewComponent } from '../ascii-preview/ascii-preview.component';
@@ -20,6 +21,7 @@ import { TerminalLogComponent } from '../terminal-log/terminal-log.component';
 })
 export class WorkspaceComponent {
   private terminalLog = inject(TerminalLogService);
+  private apiStatus = inject(ApiStatusService);
 
   protected selectedFile = signal<File | null>(null);
   protected settings = signal<AsciiSettings>({
@@ -61,6 +63,30 @@ export class WorkspaceComponent {
   }
 
   private generateAscii(file: File, settings: AsciiSettings) {
+    const status = this.apiStatus.status();
+
+    // Check if API is available
+    if (status === 'waking' || status === 'connecting') {
+      this.terminalLog.warning('RENDER ENGINE NOT READY - QUEUING REQUEST...');
+      // Wait for API to be online, then retry
+      const checkInterval = setInterval(() => {
+        if (this.apiStatus.status() === 'online') {
+          clearInterval(checkInterval);
+          this.doGenerate(file, settings);
+        }
+      }, 1000);
+      return;
+    }
+
+    if (status === 'offline') {
+      this.terminalLog.error('RENDER ENGINE OFFLINE - CANNOT PROCESS');
+      return;
+    }
+
+    this.doGenerate(file, settings);
+  }
+
+  private doGenerate(file: File, settings: AsciiSettings) {
     console.log('📤 Sending to API:', { file: file.name, settings });
     this.isLoading.set(true);
 

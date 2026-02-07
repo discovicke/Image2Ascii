@@ -45,6 +45,16 @@
   color: var(--color-error);
 }
 
+.warning {
+  color: var(--color-accent-amber);
+  animation: pulse-warning 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-warning {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 .system {
   color: var(--color-accent-amber);
   opacity: 0.7;
