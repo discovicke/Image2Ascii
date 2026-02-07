@@ -1,5 +1,6 @@
 :host {
   display: block;
+  flex-shrink: 0; /* Don't shrink */
 }
 
 .image-input-container {
