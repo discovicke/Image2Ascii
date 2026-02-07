@@ -43,6 +43,14 @@
   color: var(--color-accent-amber);
 }
 
+.connecting .status-icon {
+  color: var(--color-accent-green);
+}
+
+.offline .status-icon {
+  color: var(--color-error);
+}
+
 @keyframes blink {
   50% { opacity: 0; }
 }
