@@ -1,122 +1,145 @@
-# Image2Ascii
+# ASCII Forge 
+
 ![C#](https://img.shields.io/badge/C%23-13.0-239120?logo=csharp&logoColor=white)
-![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&logoColor=white)
-![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-Web%20API-512BD4)
+![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white)
 ![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white)
-![License](https://img.shields.io/badge/License-Portfolio%20%2F%20Educational-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
 
-A full-stack web application that converts images into ASCII art with real-time customization and a clean, modern UI.
+A full-stack web application that transforms images into ASCII art with real-time customization and a retro terminal-inspired interface.
 
-## Overview
-
-**Image2Ascii** is a three-tier application designed with clear separation of concerns:
-
-- A core conversion library for image-to-ASCII logic
-- A RESTful API exposing the conversion pipeline
-- A modern Angular frontend for instant previews and live adjustments
-
-Users can upload an image and see it transformed into ASCII art while tuning visual parameters in real time.
-
+🔗 **Live Demo**: [asciiforge.vercel.app](https://asciiforge.vercel.app)
 
 ## Features
 
-- **Multiple ASCII Libraries**: Choose from 15+ character sets including Classic, Detailed, Blocks, Matrix, Cyberpunk, and more
-- **Real-time Adjustments**: 
-  - Width control
-  - Brightness adjustment
-  - Gamma correction
-  - Color inversion
-- **Responsive Web Interface**: Clean, intuitive UI built with Angular
-- **Persistent Settings**: Settings are maintained across multiple conversions
+<img align="right" src="docs/screenshots/asciiforge-preview.png" width="400" alt="ASCII Forge Preview">
 
-## Tech Stack
+-  **15+ ASCII Libraries**: Classic, Detailed, Blocks, Matrix, Cyberpunk, and more
+-  **Real-time Controls**: Width, brightness, gamma, and color inversion
+-  **Terminal Aesthetic**: Retro UI with monospace fonts and terminal colors
+-  **Responsive Design**: Works seamlessly on desktop and mobile
+-  **API Health Monitoring**: Visual status banners for backend connectivity
+-  **Export Ready**: Save your ASCII creations
 
-**Backend**
-- .NET 10.0
-- ASP.NET Core Web API
-- SixLabors.ImageSharp for image processing
+## Architecture
 
-**Frontend**
-- Angular 21 (standalone components)
-- TypeScript
-- SCSS styling
-- Reactive forms with signals
-
-**Architecture**
-- Three-layer design: Core library, API layer, Web client
-- RESTful API communication
-- FormData-based image upload
-
-## Project Structure
-
+**Three-tier design with clear separation:**
 ```
 Image2Ascii/
-├── Image2Ascii/           # Core ASCII conversion library
-├── Image2AsciiApi/        # ASP.NET Core Web API
-└── Image2AsciiWeb/        # Angular frontend
+├── src/
+│   ├── Image2Ascii/       # Core conversion library
+│   ├── Image2AsciiApi/    # ASP.NET Core Web API
+│   └── Image2AsciiWeb/    # Angular frontend
 ```
 
-## Getting Started
+- **Core Library**: Standalone image-to-ASCII conversion logic
+- **API**: RESTful backend exposing conversion endpoints
+- **Frontend**: Modern Angular SPA with reactive forms
+
+## Quick Start
 
 ### Prerequisites
-- .NET 10.0 SDK
-- Node.js (v18+)
-- npm
+- .NET 8.0 SDK
+- Node.js 18+
+- npm 11.7+
 
-### Running the Application
+### Local Development
 
-**API:**
+**Backend:**
 ```bash
-cd Image2AsciiApi
+cd src/Image2AsciiApi
 dotnet run
+# API runs on http://localhost:5071
 ```
-The API will start on `http://localhost:5071`
 
 **Frontend:**
 ```bash
-cd Image2AsciiWeb
+cd src/Image2AsciiWeb
 npm install
 npm start
+# App runs on http://localhost:4200
 ```
-The web app will be available at `http://localhost:4200`
 
-## How It Works
+## Deployment
 
-1. User uploads an image through the web interface
-2. Image and settings are sent to the API as FormData
-3. Backend processes the image using the selected ASCII library
-4. Generated ASCII art is returned and displayed in the browser
-5. Users can adjust settings and regenerate instantly
+- **Frontend**: [Vercel](https://vercel.com) - Always-on CDN delivery
+- **Backend**: [Render](https://render.com) - Dockerized API service
 
-## API Endpoint
+The app intelligently handles API cold starts with status banners and health checks.
 
-`POST /api/ascii`
+## API Reference
+
+### Health Check
+```
+GET /health
+```
+
+### Convert Image
+```
+POST /api/ascii
+Content-Type: multipart/form-data
+```
 
 **Parameters:**
 - `image` (file): Image to convert
-- `width` (int): Output width in characters
-- `brightness` (float): Brightness adjustment (-1.0 to 1.0)
-- `gamma` (float): Gamma correction (0.1 to 3.0)
-- `asciiLibrary` (string): Selected character set
-- `invert` (bool): Invert light/dark values
+- `width` (number): Character width
+- `brightness` (number): -1.0 to 1.0
+- `gamma` (number): 0.1 to 3.0
+- `asciiLibrary` (string): Character set
+- `invert` (boolean): Invert colors
 
-## ASCII Libraries
+**Response:**
+```json
+{
+  "ascii": "string"
+}
+```
 
-The application includes various ASCII character sets optimized for different styles:
-- **Classic**: Traditional ASCII art characters
-- **Detailed**: Extended character set for high detail
-- **Blocks**: Unicode block characters
-- **Matrix**: Digital/cyberpunk aesthetic
-- And many more...
+### CORS
+Allowed origins:
+- `http://localhost:4200` (development)
+- `https://asciiforge.vercel.app` (production)
 
-## Development Notes
+## Tech Stack
 
-- The core library is decoupled and can be used independently
-- API supports Swagger/OpenAPI documentation
-- Frontend uses Angular's latest features (signals, standalone components)
-- Image processing leverages SixLabors.ImageSharp for performance
+| Layer | Technology |
+|-------|-----------|
+| **Backend** | .NET 8.0, ASP.NET Core, SixLabors.ImageSharp |
+| **Frontend** | Angular 21, TypeScript 5.9, RxJS, SCSS |
+| **Testing** | Vitest 4.0 |
+| **Deployment** | Docker, Vercel, Render |
+
+## How It Works
+
+1. User uploads image via drag-and-drop or file picker
+2. Image and settings sent to API as FormData
+3. Backend processes using selected ASCII library
+4. Generated ASCII art rendered in terminal-style preview
+5. Real-time adjustments with instant regeneration
+
+## Building for Production
+```bash
+# Frontend
+cd src/Image2AsciiWeb
+npm run build
+# Output: dist/Image2AsciiWeb/browser/
+
+# Backend (Docker)
+docker build -f src/Image2AsciiApi/Dockerfile -t ascii-api .
+```
+
+## Contributing
+
+This is a portfolio project, but feedback and suggestions are welcome!
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
 ## License
 
-This project is available for portfolio and educational purposes.
+Available for portfolio and educational purposes.
+
+---
+
+**Made with ❤️ and ASCII art** | [Report Bug](https://github.com/discovicke/Image2Ascii/issues)
