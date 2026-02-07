@@ -17,7 +17,7 @@ export class ApiStatusBannerComponent {
 
   showBanner = computed(() => {
     const s = this.status();
-    return s === 'connecting' || s === 'waking' || s === 'offline';
+    return s !== 'unknown';
   });
 
   @HostBinding('class.hidden')
@@ -29,6 +29,7 @@ export class ApiStatusBannerComponent {
     switch (this.status()) {
       case 'connecting': return '◐';
       case 'waking': return '◑';
+      case 'online': return '●';
       case 'offline': return '✗';
       default: return '○';
     }
@@ -40,6 +41,8 @@ export class ApiStatusBannerComponent {
         return 'CONNECTING TO RENDER ENGINE...';
       case 'waking':
         return 'WAKING UP SERVER (FREE TIER ~30-60s)...';
+      case 'online':
+        return 'RENDER ENGINE ONLINE';
       case 'offline':
         return 'RENDER ENGINE OFFLINE - PLEASE TRY AGAIN LATER';
       default:

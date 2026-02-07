@@ -50,7 +50,7 @@ export class AsciiService {
       invert: settings.invert.toString()
     });
 
-    return this.http.post<AsciiResponse>(this.apiUrl, formData).pipe(
+    return this.http.post<AsciiResponse>(`${this.apiUrl}/api/ascii`, formData).pipe(
       tap(response => {
         console.log('🟦 [SERVICE] Response received, ascii length:', response.ascii.length);
         this.currentAscii.set(response.ascii);

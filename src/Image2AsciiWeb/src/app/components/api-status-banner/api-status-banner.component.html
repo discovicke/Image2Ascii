@@ -7,8 +7,10 @@
         <span class="retry-count">[ATTEMPT {{ retryCount() + 1 }}]</span>
       }
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" [style.animation-duration]="'2s'"></div>
-    </div>
+    @if (status() === 'connecting' || status() === 'waking') {
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    }
   </div>
 }

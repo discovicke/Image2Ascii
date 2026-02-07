@@ -26,6 +26,10 @@
   border-left-color: var(--color-error);
 }
 
+.status-banner.online {
+  border-left-color: var(--color-accent-green);
+}
+
 .status-content {
   display: flex;
   align-items: center;
@@ -49,6 +53,12 @@
 
 .offline .status-icon {
   color: var(--color-error);
+  animation: none;
+}
+
+.online .status-icon {
+  color: var(--color-accent-green);
+  animation: none;
 }
 
 @keyframes blink {
