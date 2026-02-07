@@ -17,24 +17,24 @@ export class SettingsPanelComponent {
   settings = input.required<AsciiSettings>();
   settingsChanged = output<AsciiSettings>();
   asciiLibraries: AsciiLibrary[] = [
-    { key: 'Detailed', label: 'Detailed (Full Range)', contrast: 'low' },
-    { key: 'Soft1', label: 'Soft (Smooth Tones)', contrast: 'low' },
-    { key: 'Matrix', label: 'Matrix (Digital)', contrast: 'low' },
-    { key: 'LCD', label: 'LCD (Segmented)', contrast: 'low' },
-    { key: 'SoftDots', label: 'Dots (Stippled)', contrast: 'high' },
-    { key: 'Dither1', label: 'Dither (Patterned)', contrast: 'low' },
-    { key: 'Dither2', label: 'Dither (Ultra Dense)', contrast: 'low' },
-    { key: 'StarsAndSky', label: 'Stars (Silhouette)', contrast: 'high' },
+    { key: 'Detailed', label: 'DETAILED_FULL_RANGE', contrast: 'low' },
+    { key: 'Soft1', label: 'SOFT_SMOOTH_TONES', contrast: 'low' },
+    { key: 'Matrix', label: 'MATRIX_DIGITAL', contrast: 'low' },
+    { key: 'LCD', label: 'LCD_SEGMENTED', contrast: 'low' },
+    { key: 'SoftDots', label: 'DOTS_STIPPLED', contrast: 'high' },
+    { key: 'Dither1', label: 'DITHER_PATTERNED', contrast: 'low' },
+    { key: 'Dither2', label: 'DITHER_ULTRA_DENSE', contrast: 'low' },
+    { key: 'StarsAndSky', label: 'STARS_SILHOUETTE', contrast: 'high' },
 
-    { key: 'Classic', label: 'Classic (Standard)', contrast: 'medium' },
-    { key: 'Soft2Short', label: 'Soft (Balanced)', contrast: 'medium' },
-    { key: 'PrintFriendly', label: 'Print (Readable)', contrast: 'medium' },
-    { key: 'Numbers', label: 'Numbers (Numeric)', contrast: 'medium' },
-    { key: 'Thin', label: 'Thin (Line Art)', contrast: 'high' },
+    { key: 'Classic', label: 'CLASSIC_STANDARD', contrast: 'medium' },
+    { key: 'Soft2Short', label: 'SOFT_BALANCED', contrast: 'medium' },
+    { key: 'PrintFriendly', label: 'PRINT_READABLE', contrast: 'medium' },
+    { key: 'Numbers', label: 'NUMBERS_NUMERIC', contrast: 'medium' },
+    { key: 'Thin', label: 'THIN_LINE_ART', contrast: 'high' },
 
-    { key: 'Minimal', label: 'Minimal (Sparse)', contrast: 'high' },
-    { key: 'HighContrast1', label: 'High Contrast (Hard)', contrast: 'high' },
-    { key: 'Minimal3', label: 'Minimal (Bold)', contrast: 'high' },
+    { key: 'Minimal', label: 'MINIMAL_SPARSE', contrast: 'high' },
+    { key: 'HighContrast1', label: 'HIGH_CONTRAST_HARD', contrast: 'high' },
+    { key: 'Minimal3', label: 'MINIMAL_BOLD', contrast: 'high' },
   ];
 
   get groupedLibraries(): Array<{ label: string; libs: AsciiLibrary[] }> {
@@ -63,9 +63,9 @@ export class SettingsPanelComponent {
   }
 
   private humanContrast(c: string) {
-    if (c === 'high') return 'High contrast';
-    if (c === 'medium') return 'Medium contrast';
-    else return 'Low contrast';
+    if (c === 'high') return 'HIGH_CONTRAST';
+    if (c === 'medium') return 'MEDIUM_CONTRAST';
+    else return 'LOW_CONTRAST';
   }
 
   onAsciiLibraryChange(value: string) {
