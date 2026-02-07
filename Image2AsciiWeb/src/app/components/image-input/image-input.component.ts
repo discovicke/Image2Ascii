@@ -13,6 +13,8 @@ export class ImageInputComponent {
   fileSelected = output<File>();
 
   protected selectedFileName = '';
+  protected selectedFileSize = '';
+  protected selectedFileType = '';
   protected error = '';
 
   onFileChange(event: Event) {
@@ -24,6 +26,12 @@ export class ImageInputComponent {
 
   onFileDrop(file: File) {
     this.handleFile(file);
+  }
+
+  private formatFileSize(bytes: number): string {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
   }
 
   private handleFile(file: File) {
@@ -43,6 +51,8 @@ export class ImageInputComponent {
     }
 
     this.selectedFileName = file.name;
+    this.selectedFileSize = this.formatFileSize(file.size);
+    this.selectedFileType = file.type.replace('image/', '').toUpperCase();
     this.fileSelected.emit(file);
   }
 
