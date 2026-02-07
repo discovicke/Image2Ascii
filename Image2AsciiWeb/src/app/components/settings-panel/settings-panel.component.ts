@@ -19,8 +19,8 @@ export class SettingsPanelComponent {
     { key: 'Matrix', label: 'Matrix (Digital)', contrast: 'low' },
     { key: 'LCD', label: 'LCD (Segmented)', contrast: 'low' },
     { key: 'SoftDots', label: 'Dots (Stippled)', contrast: 'high' },
-    { key: 'Dither1', label: 'Dither (Patterned)', contrast: 'low', warning: 'High contrast image' },
-    { key: 'Dither2', label: 'Dither (Ultra Dense)', contrast: 'low', warning: 'High contrast image' },
+    { key: 'Dither1', label: 'Dither (Patterned)', contrast: 'low' },
+    { key: 'Dither2', label: 'Dither (Ultra Dense)', contrast: 'low' },
     { key: 'StarsAndSky', label: 'Stars (Silhouette)', contrast: 'high' },
 
     { key: 'Classic', label: 'Classic (Standard)', contrast: 'medium' },
