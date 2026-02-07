@@ -3,25 +3,24 @@ WORKDIR /app
 EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+WORKDIR /build
 
-# Kopiera både API och Library projekt från src/
-COPY ["src/Image2AsciiApi/Image2AsciiApi.csproj", "src/Image2AsciiApi/"]
-COPY ["src/Image2Ascii/Image2Ascii.csproj", "src/Image2Ascii/"]
+# Kopiera projekt-filer (från repo root)
+COPY src/Image2Ascii/Image2Ascii.csproj src/Image2Ascii/
+COPY src/Image2AsciiApi/Image2AsciiApi.csproj src/Image2AsciiApi/
 
 # Restore
-RUN dotnet restore "src/Image2AsciiApi/Image2AsciiApi.csproj"
+RUN dotnet restore src/Image2AsciiApi/Image2AsciiApi.csproj
 
-# Kopiera all källkod
-COPY src/Image2AsciiApi/ src/Image2AsciiApi/
+# Kopiera källkod
 COPY src/Image2Ascii/ src/Image2Ascii/
+COPY src/Image2AsciiApi/ src/Image2AsciiApi/
 
 # Build
-WORKDIR /src/src/Image2AsciiApi
-RUN dotnet build -c Release -o /app/build
+RUN dotnet build src/Image2AsciiApi/Image2AsciiApi.csproj -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish src/Image2AsciiApi/Image2AsciiApi.csproj -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
