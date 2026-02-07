@@ -20,6 +20,14 @@ A full-stack web application that transforms images into ASCII art with real-tim
 -  **API Health Monitoring**: Visual status banners for backend connectivity
 -  **Export Ready**: Save your ASCII creations
 
+## How It Works
+
+1. User uploads image via drag-and-drop or file picker
+2. Image and settings sent to API as FormData
+3. Backend processes using selected ASCII library
+4. Generated ASCII art rendered in terminal-style preview
+5. Real-time adjustments with instant regeneration
+
 ## Architecture
 
 **Three-tier design with clear separation:**
@@ -107,13 +115,6 @@ Allowed origins:
 | **Frontend** | Angular 21, TypeScript 5.9, RxJS, SCSS |
 | **Deployment** | Docker, Vercel, Render |
 
-## How It Works
-
-1. User uploads image via drag-and-drop or file picker
-2. Image and settings sent to API as FormData
-3. Backend processes using selected ASCII library
-4. Generated ASCII art rendered in terminal-style preview
-5. Real-time adjustments with instant regeneration
 
 ## Building for Production
 ```bash
