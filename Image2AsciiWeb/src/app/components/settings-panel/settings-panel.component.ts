@@ -12,6 +12,8 @@ import { TerminalLogService } from '../../services/terminal-log.service';
   styleUrl: './settings-panel.component.scss'
 })
 export class SettingsPanelComponent {
+  private terminalLog = inject(TerminalLogService);
+
   settings = input.required<AsciiSettings>();
   settingsChanged = output<AsciiSettings>();
   asciiLibraries: AsciiLibrary[] = [
@@ -67,26 +69,32 @@ export class SettingsPanelComponent {
   }
 
   onAsciiLibraryChange(value: string) {
+    this.terminalLog.logSettingsChange('CHAR_SET', value);
     const newSettings = { ...this.settings(), asciiLibrary: value };
     this.emitChange({ asciiLibrary: newSettings.asciiLibrary});
   }
   onWidthChange(value: string) {
+    this.terminalLog.logSettingsChange('GRID_WIDTH', value);
     this.emitChange({ width: parseInt(value) });
   }
 
   onBrightnessChange(value: string) {
+    this.terminalLog.logSettingsChange('BRIGHTNESS', value);
     this.emitChange({ brightness: parseFloat(value) });
   }
 
   onGammaChange(value: string) {
+    this.terminalLog.logSettingsChange('GAMMA', value);
     this.emitChange({ gamma: parseFloat(value) });
   }
 
   onInvertChange(value: boolean) {
+    this.terminalLog.logSettingsChange('INVERT_LUMA', value ? 'ON' : 'OFF');
     this.emitChange({ invert: value });
   }
 
   onChromaticChange(value: boolean) {
+    this.terminalLog.logSettingsChange('CHROMATIC', value ? 'ON' : 'OFF');
     this.emitChange({ chromatic: value });
   }
 
