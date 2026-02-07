@@ -1,8 +1,19 @@
-.ascii-preview-container {
+/* Host element must take full height for flexbox to work */
+:host {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 0; /* Critical for nested flex overflow */
+  overflow: hidden;
+}
+
+.ascii-preview-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Take all available space from host */
+  min-height: 0; /* Critical for nested flex overflow */
   background: var(--color-bg-base);
+  overflow: hidden; /* Prevent container from scrolling */
 }
 
 .output-header {
@@ -30,11 +41,12 @@
 
 .ascii-viewport {
   flex: 1;
-  overflow: auto;
+  min-height: 0; /* Critical for flexbox overflow to work */
+  overflow: auto; /* Enable scrolling within viewport */
   padding: 40px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Align to top so large content scrolls properly */
   position: relative;
 }
 
