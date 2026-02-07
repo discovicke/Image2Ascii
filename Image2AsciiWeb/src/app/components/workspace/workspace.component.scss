@@ -1,7 +1,9 @@
-.workspace {
+:host {
   display: grid;
   grid-template-columns: 340px 1fr;
   overflow: hidden;
+  width: 100vw;
+  max-height: 100vh;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
@@ -11,6 +13,7 @@
 .panel {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .sidebar {
