@@ -1,16 +1,17 @@
 header {
-  background: #2c3e50;
-  color: white;
-  padding: 2rem;
-  text-align: center;
+  padding: 2rem 2rem 0 2rem;
+  /* border-bottom: 1px solid #33363d; Consider if border is needed, global h1 has one */
 
   h1 {
-    margin: 0 0 0.5rem 0;
-    font-size: 2rem;
+    /* Inherits global h1 styles:
+       font-size: 24px; color: $c-blue; border-bottom...
+    */
+    margin-bottom: 0.5rem;
   }
 
   p {
+    color: #75787d; /* --color-text-muted */
     margin: 0;
-    opacity: 0.8;
+    font-size: 14px;
   }
 }
