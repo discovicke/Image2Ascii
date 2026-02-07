@@ -1,18 +1,20 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { AsciiService, AsciiSettings } from '../../services/ascii.service';
+import { TerminalLogService } from '../../services/terminal-log.service';
 import { ImageInputComponent } from '../image-input/image-input.component';
 import { SettingsPanelComponent } from '../settings-panel/settings-panel.component';
 import { AsciiPreviewComponent } from '../ascii-preview/ascii-preview.component';
+import { TerminalLogComponent } from '../terminal-log/terminal-log.component';
 
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [CommonModule, FormsModule, ImageInputComponent, SettingsPanelComponent, AsciiPreviewComponent],
+  imports: [CommonModule, FormsModule, ImageInputComponent, SettingsPanelComponent, AsciiPreviewComponent, TerminalLogComponent],
   templateUrl: './workspace.component.html',
   styleUrl: './workspace.component.scss'
 })

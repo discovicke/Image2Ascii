@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AsciiSettings } from '../../services/ascii.service';
+import { TerminalLogService } from '../../services/terminal-log.service';
 
 @Component({
   selector: 'app-ascii-preview',

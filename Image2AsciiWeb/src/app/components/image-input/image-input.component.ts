@@ -1,6 +1,7 @@
-import { Component, output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropDirective } from '../../directives/drag-drop.directive';
+import { TerminalLogService } from '../../services/terminal-log.service';
 
 @Component({
   selector: 'app-image-input',

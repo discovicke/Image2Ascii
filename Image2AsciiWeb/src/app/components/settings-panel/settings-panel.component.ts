@@ -1,7 +1,8 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AsciiSettings } from '../../services/ascii.service';
+import { TerminalLogService } from '../../services/terminal-log.service';
 
 @Component({
   selector: 'app-settings-panel',
