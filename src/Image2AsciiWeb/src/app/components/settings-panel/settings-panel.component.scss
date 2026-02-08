@@ -1,14 +1,6 @@
 :host {
   display: block;
   flex-shrink: 0; /* Don't shrink */
-
-  @media (max-width: 900px) {
-    flex-shrink: 1;
-    min-height: 0;
-    overflow-y: auto;
-    max-height: 50vh;
-    -webkit-overflow-scrolling: touch;
-  }
 }
 
 .settings-panel {
@@ -28,7 +20,7 @@
 .label-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   font-size: 11px;
   color: var(--color-text-muted);
 }
