@@ -7,6 +7,7 @@
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
+    grid-template-rows: minmax(40%, 1fr) minmax(200px, auto);
   }
 }
 
@@ -23,31 +24,16 @@
   border-right: 1px solid var(--color-border);
   background: var(--color-bg-panel);
   padding: 0;
-  overflow-y: auto; /* Enable scrolling on sidebar */
+  overflow-y: auto;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
 
-  /* Custom scrollbar styling */
-  &::-webkit-scrollbar {
-    width: 6px;
+  @media (max-width: 900px) {
+    order: 2; /* Move sidebar below output on mobile */
+    border-right: none;
+    border-top: 1px solid var(--color-border);
+    max-height: 50vh;
   }
-
-  &::-webkit-scrollbar-track {
-    background: var(--color-bg-panel);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--color-border);
-    border-radius: 0;
-
-    &:hover {
-      background: var(--color-text-muted);
-    }
-  }
-
-  /* Firefox scrollbar */
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-border) var(--color-bg-panel);
 }
 
 .output-area {
@@ -55,4 +41,9 @@
   position: relative;
   overflow: hidden; /* Let child ascii-preview-container handle overflow */
   min-height: 0; /* Critical for nested flex/overflow */
+
+  @media (max-width: 900px) {
+    order: 1; /* Show output first on mobile */
+    min-height: 200px;
+  }
 }
