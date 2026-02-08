@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AsciiSettings } from '../../services/ascii.service';
 import { TerminalLogService } from '../../services/terminal-log.service';
@@ -10,7 +10,7 @@ import { TerminalLogService } from '../../services/terminal-log.service';
   templateUrl: './ascii-preview.component.html',
   styleUrl: './ascii-preview.component.scss'
 })
-export class AsciiPreviewComponent {
+export class AsciiPreviewComponent implements OnInit, OnDestroy {
   private terminalLog = inject(TerminalLogService);
 
   ascii = input.required<string>();
@@ -18,6 +18,23 @@ export class AsciiPreviewComponent {
   settings = input<AsciiSettings>();
 
   protected copySuccess = false;
+  protected animatedDots = signal('.');
+  private dotInterval?: number;
+  private readonly dotStates = ['.', '..', '...', '.', '..', '...'];
+
+  ngOnInit() {
+    let currentIndex = 0;
+    this.dotInterval = window.setInterval(() => {
+      currentIndex = (currentIndex + 1) % this.dotStates.length;
+      this.animatedDots.set(this.dotStates[currentIndex]);
+    }, 400);
+  }
+
+  ngOnDestroy() {
+    if (this.dotInterval) {
+      clearInterval(this.dotInterval);
+    }
+  }
 
   copyToClipboard() {
     const text = this.ascii();

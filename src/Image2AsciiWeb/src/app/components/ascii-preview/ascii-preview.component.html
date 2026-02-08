@@ -16,7 +16,7 @@
       <pre class="ascii-output" [style.color]="settings()?.chromatic ? 'var(--color-text-primary)' : 'var(--color-accent-green)'">{{ ascii() }}</pre>
     } @else {
       <div class="placeholder">
-        <p>AWAITING_INPUT_SIGNAL...</p>
+        <p>AWAITING_INPUT_SIGNAL{{ animatedDots() }}</p>
       </div>
     }
   </div>
