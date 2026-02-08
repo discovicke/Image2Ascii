@@ -67,6 +67,7 @@ $sp-xl: var(--space-xl);
   /* Tar bort standard "mjukhet" i rendering för krispigare text */
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-color: $c-muted $c-panel;
 }
 
 body {
@@ -189,24 +190,36 @@ button {
   }
 }
 
+
+
 /* 7. VERKTYGSKLASSER (Utility Classes) */
 
-/* Scrollbars - Minimalistiska och mörka */
+/* Scrollbars - Blocky Terminal Style */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: $c-bg;
   border-left: 1px solid $c-border;
 }
 ::-webkit-scrollbar-thumb {
-  background: $c-border;
-  border: 2px solid $c-bg; /* Ger "padding" effekt */
+  background: $c-muted;
+  border: none;
+  border-radius: 0; /* Sharp blocky edges */
 
   &:hover {
-    background: $c-muted;
+    background: $c-amber;
   }
+}
+::-webkit-scrollbar-corner {
+  background: $c-panel;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: $c-muted $c-bg;
 }
 
 /* Selection - När användaren markerar text (viktigt för ASCII-kopiering) */
