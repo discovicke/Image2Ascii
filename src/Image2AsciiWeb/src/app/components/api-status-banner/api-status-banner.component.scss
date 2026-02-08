@@ -105,3 +105,28 @@
   0% { transform: translateX(-100%); }
   100% { transform: translateX(400%); }
 }
+
+/* Mobile responsive styles */
+@media (max-width: 600px) {
+  .status-banner {
+    padding: 8px 12px;
+    font-size: 10px;
+  }
+
+  .status-content {
+    gap: 6px;
+  }
+
+  .status-icon {
+    font-size: 11px;
+  }
+
+  .retry-count {
+    font-size: 8px;
+  }
+
+  .progress-bar {
+    margin-top: 6px;
+  }
+}
+
