@@ -74,6 +74,12 @@
     letter-spacing: 2px;
     text-transform: uppercase;
   }
+
+  .dots {
+    display: inline-block;
+    width: 1.5em; /* Fixed width to prevent jumping */
+    text-align: left;
+  }
 }
 
 .spinner {

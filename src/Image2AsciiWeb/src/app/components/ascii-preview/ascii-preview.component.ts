@@ -20,14 +20,14 @@ export class AsciiPreviewComponent implements OnInit, OnDestroy {
   protected copySuccess = false;
   protected animatedDots = signal('.');
   private dotInterval?: number;
-  private readonly dotStates = ['.', '..', '...', '.', '..', '...'];
+  private readonly dotStates = ['.  ', '.. ', '...'];
 
   ngOnInit() {
     let currentIndex = 0;
     this.dotInterval = window.setInterval(() => {
       currentIndex = (currentIndex + 1) % this.dotStates.length;
       this.animatedDots.set(this.dotStates[currentIndex]);
-    }, 400);
+    }, 800);
   }
 
   ngOnDestroy() {
