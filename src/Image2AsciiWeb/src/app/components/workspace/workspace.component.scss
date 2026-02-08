@@ -23,7 +23,31 @@
   border-right: 1px solid var(--color-border);
   background: var(--color-bg-panel);
   padding: 0;
-  overflow: hidden; /* Sidebar itself doesn't scroll, children do */
+  overflow-y: auto; /* Enable scrolling on sidebar */
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+
+  /* Custom scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--color-bg-panel);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 0;
+
+    &:hover {
+      background: var(--color-text-muted);
+    }
+  }
+
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) var(--color-bg-panel);
 }
 
 .output-area {

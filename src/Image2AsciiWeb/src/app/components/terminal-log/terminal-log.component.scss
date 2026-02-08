@@ -1,15 +1,15 @@
 :host {
   display: flex;
   flex-direction: column;
-  flex: 1; /* Take remaining space in sidebar */
-  min-height: 100px; /* Minimum height for log */
-  overflow: hidden;
+  flex-shrink: 0; /* Don't shrink, let sidebar scroll instead */
+  min-height: 80px;
+  max-height: 150px;
 }
 
 .terminal-log {
   flex: 1;
   min-height: 0; /* Critical for flex overflow */
-  padding: 10px 20px;
+  padding: 8px 16px;
   font-size: 10px;
   border-top: 1px solid var(--color-border);
   overflow-y: auto;
