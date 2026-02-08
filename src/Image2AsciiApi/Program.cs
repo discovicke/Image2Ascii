@@ -29,6 +29,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/", () => "ASCII Forge API is running! 🚀");
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
+app.MapMethods("/health", new[] { "HEAD" }, () => Results.Ok());
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAngular");
