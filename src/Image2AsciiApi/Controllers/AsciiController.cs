@@ -20,10 +20,10 @@ public class AsciiController : ControllerBase
         if (request.Image == null || request.Image.Length == 0)
             return BadRequest(new { error = "No image uploaded" });
 
-        // 1. Validate file size (max 10MB)
-        const long maxFileSize = 10 * 1024 * 1024;
+        // 1. Validate file size (max 50MB)
+        const long maxFileSize = 50 * 1024 * 1024;
         if (request.Image.Length > maxFileSize)
-            return BadRequest(new { error = "File size exceeds the 10MB limit" });
+            return BadRequest(new { error = "File size exceeds the 50MB limit" });
 
         // 2. Validate file extension
         var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" };
