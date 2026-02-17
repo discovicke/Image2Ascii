@@ -56,7 +56,7 @@ public class AsciiController : ControllerBase
         catch (Exception streamEx)
         {
             Console.WriteLine($"🟨 [CONTROLLER] Stream conversion failed, falling back to file: {streamEx.Message}");
-            
+
             try
             {
                 var tempPath = Path.GetTempFileName();
@@ -67,7 +67,8 @@ public class AsciiController : ControllerBase
                 }
 
                 var asciiArt = ImageToAscii.ConvertToAscii(tempPath, options);
-                Console.WriteLine($"🟨 [CONTROLLER] ASCII generated via file fallback, length: {asciiArt?.Length ?? 0}");
+                Console.WriteLine(
+                    $"🟨 [CONTROLLER] ASCII generated via file fallback, length: {asciiArt?.Length ?? 0}");
 
                 System.IO.File.Delete(tempPath);
 
@@ -78,6 +79,13 @@ public class AsciiController : ControllerBase
                 Console.WriteLine($"🔴 [CONTROLLER] ERROR: {ex.Message}");
                 Console.WriteLine($"🔴 [CONTROLLER] Stack trace: {ex.StackTrace}");
                 return StatusCode(500, new { error = ex.Message });
+            }
+            finally
+            {
+                if (System.IO.File.Exists(tempPath))
+                {
+                    System.IO.File.Delete(tempPath);
+                }
             }
         }
     }
