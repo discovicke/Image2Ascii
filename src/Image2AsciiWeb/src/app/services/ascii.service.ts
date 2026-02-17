@@ -21,10 +21,10 @@ export class AsciiService {
   private readonly apiUrl = environment.apiUrl;
 
   private currentImage = signal<File | null>(null);
-  private currentAscii = signal<string>('');
+  private currentFrames = signal<string[]>([]);
 
   readonly image = this.currentImage.asReadonly();
-  readonly ascii = this.currentAscii.asReadonly();
+  readonly frames = this.currentFrames.asReadonly();
 
   constructor(private http: HttpClient) {}
 
@@ -41,19 +41,10 @@ export class AsciiService {
     formData.append('asciiLibrary', settings.asciiLibrary || 'Classic');
     formData.append('invert', settings.invert.toString());
 
-    console.log('🟦 [SERVICE] Original settings:', settings);
-    console.log('🟦 [SERVICE] FormData values:', {
-      width: settings.width.toString(),
-      brightness: settings.brightness.toString(),
-      gamma: settings.gamma.toString(),
-      asciiLibrary: settings.asciiLibrary || 'Classic',
-      invert: settings.invert.toString()
-    });
-
     return this.http.post<AsciiResponse>(`${this.apiUrl}/api/ascii`, formData).pipe(
       tap(response => {
-        console.log('🟦 [SERVICE] Response received, ascii length:', response.ascii.length);
-        this.currentAscii.set(response.ascii);
+        console.log('🟦 [SERVICE] Response received, frames count:', response.frames.length);
+        this.currentFrames.set(response.frames);
       })
     );
   }
