@@ -71,7 +71,8 @@
               "buildTarget": "Image2AsciiWeb:build:production"
             },
             "development": {
-              "buildTarget": "Image2AsciiWeb:build:development"
+              "buildTarget": "Image2AsciiWeb:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
