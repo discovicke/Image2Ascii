@@ -13,7 +13,7 @@ export interface AsciiSettings {
 }
 
 export interface AsciiResponse {
-  ascii: string;
+  frames: string[];
 }
 
 @Injectable({ providedIn: 'root' })
