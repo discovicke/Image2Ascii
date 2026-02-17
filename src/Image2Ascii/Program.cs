@@ -44,7 +44,21 @@ namespace Image2Ascii
         {
             Console.WriteLine("Genererar ASCII-art...");
 
-            var ascii = ImageToAscii.ConvertToAscii(filepath, options);
+            string ascii;
+            try
+            {
+                // Vi använder en stream även här för att testa den nya metoden
+                using (var stream = File.OpenRead(filepath))
+                {
+                    ascii = ImageToAscii.ConvertToAscii(stream, options);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Kunde inte läsa via stream: {ex.Message}. Fallback till filepath.");
+                ascii = ImageToAscii.ConvertToAscii(filepath, options);
+            }
+
             Console.WriteLine(ascii);
 
             // Spara till fil
