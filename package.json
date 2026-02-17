@@ -1,0 +1,10 @@
+{
+  "name": "image2ascii-root",
+  "version": "1.0.0",
+  "scripts": {  
+    "dev": "npx concurrently 'npm run dev:api' 'npm run dev:web'",
+    "dev:api": "dotnet run --project src/Image2AsciiApi/Image2AsciiApi.csproj --urls http://127.0.0.1:5071",
+    "dev:web": "cd src/Image2AsciiWeb && npm start",
+    "install:all": "cd src/Image2AsciiWeb && npm install"
+  }
+}

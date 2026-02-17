@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "target": "http://127.0.0.1:5071",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "onError": "function(err, req, res) { console.log('Proxy error:', err); }"
+  }
+}
