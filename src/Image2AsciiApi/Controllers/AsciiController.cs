@@ -45,13 +45,13 @@ public class AsciiController : ControllerBase
                 // Pixel Budget: Max 40 million total pixels (Width * Height * Frames / Step)
                 // This ensures we stay well within Render's 512MB RAM
                 const int maxFrames = 60;
-                int estimatedFrames = Math.Min(imageInfo.FrameCount, maxFrames);
+                int estimatedFrames = Math.Min(imageInfo.FrameMetadataCollection.Count, maxFrames);
                 long totalPixels = (long)imageInfo.Width * imageInfo.Height * estimatedFrames;
                 
                 if (totalPixels > 40_000_000) 
                 {
                     return BadRequest(new { 
-                        error = $"Image is too large to process. Please reduce resolution or frame count. (Detected: {imageInfo.Width}x{imageInfo.Height}, {imageInfo.FrameCount} frames)" 
+                        error = $"Image is too large to process. Please reduce resolution or frame count. (Detected: {imageInfo.Width}x{imageInfo.Height}, {imageInfo.FrameMetadataCollection.Count} frames)" 
                     });
                 }
             }
