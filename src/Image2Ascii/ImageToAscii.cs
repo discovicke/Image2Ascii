@@ -24,27 +24,45 @@ public class ImageToAscii
 
     {
 
-        Console.WriteLine(
+                Console.WriteLine(
 
-            $"🟩 [CONVERTER] Starting conversion with: Width={options.Width}, Brightness={options.Brightness}, Gamma={options.Gamma}, Invert={options.Invert}");
+                    $"🟩 [CONVERTER] Starting conversion with: Width={options.Width}, Brightness={options.Brightness}, Gamma={options.Gamma}, Invert={options.Invert}");
 
+        
 
+                using var image = Image.Load<Rgb24>(imageStream);
 
-        using var image = Image.Load<Rgb24>(imageStream);
+                var frames = new List<string>();
 
-        var frames = new List<string>();
+        
 
+                // Limit the number of frames to process to avoid memory issues on Render (max 60 frames)
 
+                const int maxFrames = 60;
 
-                for (int i = 0; i < image.Frames.Count; i++)
+                int frameCount = image.Frames.Count;
 
+                int step = Math.Max(1, frameCount / maxFrames);
 
+                
+
+                Console.WriteLine($"🟩 [CONVERTER] Image loaded, total frames: {frameCount}, processing every {step} frame(s)");
+
+        
+
+                for (int i = 0; i < frameCount; i += step)
 
                 {
 
+                    // Stop if we somehow exceed maxFrames due to rounding
 
+                    if (frames.Count >= maxFrames) break;
+
+        
 
                     using var frameImage = image.Frames.CloneFrame(i);
+
+        
 
 
 
