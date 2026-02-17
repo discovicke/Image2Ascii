@@ -97,6 +97,36 @@ export class TerminalLogService {
     this.error(`RENDER FAILED: ${error}`);
   }
 
+  logApiError(errorData: unknown) {
+    this.error('API ERROR RECEIVED');
+
+    // Try to extract meaningful error information
+    if (typeof errorData === 'object' && errorData !== null) {
+      const err = errorData as any;
+
+      // Handle HttpErrorResponse
+      if (err.status && err.status === 400) {
+        this.error(`STATUS: 400 BAD REQUEST`);
+
+        // Try to get the error message from response body
+        if (err.error && typeof err.error === 'object' && err.error.error) {
+          this.error(`DETAILS: ${err.error.error}`);
+        } else if (err.message) {
+          this.error(`DETAILS: ${err.message}`);
+        }
+      } else if (err.status && err.status >= 500) {
+        this.error(`STATUS: ${err.status} SERVER ERROR`);
+        this.error('RENDER ENGINE ENCOUNTERED INTERNAL ERROR');
+      } else if (err.status && err.status >= 400) {
+        this.error(`STATUS: ${err.status} ${err.statusText || 'CLIENT ERROR'}`);
+      } else {
+        this.error('UNKNOWN ERROR - CHECK CONNECTION');
+      }
+    } else if (typeof errorData === 'string') {
+      this.error(`DETAILS: ${errorData}`);
+    }
+  }
+
   logCopy() {
     this.success('OUTPUT COPIED TO CLIPBOARD');
   }

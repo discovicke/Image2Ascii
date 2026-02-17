@@ -101,7 +101,7 @@ export class WorkspaceComponent {
       error: (err: unknown) => {
         console.error('API Error:', err);
         this.isLoading.set(false);
-        this.terminalLog.logBatchError('CONNECTION FAILED');
+        this.terminalLog.logApiError(err);
       }
     });
   }
