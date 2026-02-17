@@ -44,29 +44,32 @@ namespace Image2Ascii
         {
             Console.WriteLine("Genererar ASCII-art...");
 
-            string ascii;
+            List<string> asciiFrames;
             try
             {
                 // Vi använder en stream även här för att testa den nya metoden
                 using (var stream = File.OpenRead(filepath))
                 {
-                    ascii = ImageToAscii.ConvertToAscii(stream, options);
+                    asciiFrames = ImageToAscii.ConvertToAscii(stream, options);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Kunde inte läsa via stream: {ex.Message}. Fallback till filepath.");
-                ascii = ImageToAscii.ConvertToAscii(filepath, options);
+                asciiFrames = ImageToAscii.ConvertToAscii(filepath, options);
             }
 
-            Console.WriteLine(ascii);
+            foreach (var frame in asciiFrames)
+            {
+                Console.WriteLine(frame);
+            }
 
-            // Spara till fil
+            // Spara till fil (endast första framen för enkelhetens skull i CLI)
             var filenameWithoutExtension = Path.GetFileNameWithoutExtension(filepath);
             var filename = $"{filenameWithoutExtension}_ascii.txt";
-            File.WriteAllText(filename, ascii);
+            File.WriteAllText(filename, asciiFrames[0]);
             
-            Console.WriteLine($"Sparat till: {filename}");
+            Console.WriteLine($"Sparat (första framen) till: {filename}");
         }
     }
 }
