@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Image2Ascii;
 using Image2AsciiApi.Models;
+using SixLabors.ImageSharp;
 
 namespace Image2AsciiApi.Controllers;
 
@@ -11,82 +12,80 @@ public class AsciiController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> ConvertImage([FromForm] ConvertImageDto request)
     {
-        Console.WriteLine("🟨 [CONTROLLER] === REQUEST RECEIVED ===");
-        Console.WriteLine($"🟨 [CONTROLLER] Content-Type: {Request.ContentType}");
-        Console.WriteLine($"🟨 [CONTROLLER] Form keys: {string.Join(", ", Request.Form.Keys)}");
-
-        foreach (var key in Request.Form.Keys)
+        if (!ModelState.IsValid)
         {
-            Console.WriteLine($"🟨 [CONTROLLER] Form[{key}] = '{Request.Form[key]}' (type: {Request.Form[key].GetType()})");
+            return BadRequest(ModelState);
         }
-
-        Console.WriteLine($"🟨 [CONTROLLER] Files count: {Request.Form.Files.Count}");
-        if (Request.Form.Files.Count > 0)
-        {
-            Console.WriteLine($"🟨 [CONTROLLER] First file: {Request.Form.Files[0].FileName}, Length: {Request.Form.Files[0].Length}");
-        }
-
-        Console.WriteLine("🟨 [CONTROLLER] Bound parameters:");
-        Console.WriteLine($"🟨 [CONTROLLER] image is null: {request.Image == null}");
-        Console.WriteLine($"🟨 [CONTROLLER] width='{request.Width}', brightness='{request.Brightness}', gamma='{request.Gamma}', invert='{request.Invert}'");
 
         if (request.Image == null || request.Image.Length == 0)
             return BadRequest(new { error = "No image uploaded" });
 
-        var options = new AsciiOptions
-        {
-            Width = request.GetWidth(),
-            Brightness = request.GetBrightness(),
-            Gamma = request.GetGamma(),
-            Invert = request.GetInvert(),
-            SelectedLibrary = request.AsciiLibrary ?? "Classic"
-        };
+        // 1. Validate file size (max 10MB)
+        const long maxFileSize = 10 * 1024 * 1024;
+        if (request.Image.Length > maxFileSize)
+            return BadRequest(new { error = "File size exceeds the 10MB limit" });
 
-        Console.WriteLine($"🟨 [CONTROLLER] AsciiOptions created: Width={options.Width}, Brightness={options.Brightness}, Gamma={options.Gamma}, Invert={options.Invert}");
+        // 2. Validate file extension
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" };
+        var extension = Path.GetExtension(request.Image.FileName).ToLowerInvariant();
+        if (string.IsNullOrEmpty(extension) || !allowedExtensions.Contains(extension))
+            return BadRequest(new { error = "Invalid file type. Only images (JPG, PNG, GIF, BMP, WEBP) are allowed." });
 
         try
         {
-            // Försök med stream först (ny metod)
-            Console.WriteLine("🟨 [CONTROLLER] Attempting conversion using stream...");
-            using var stream = request.Image.OpenReadStream();
-            var asciiArt = ImageToAscii.ConvertToAscii(stream, options);
-            Console.WriteLine($"🟨 [CONTROLLER] ASCII generated via stream, length: {asciiArt?.Length ?? 0}");
-            return Ok(new { ascii = asciiArt });
-        }
-        catch (Exception streamEx)
-        {
-            Console.WriteLine($"🟨 [CONTROLLER] Stream conversion failed, falling back to file: {streamEx.Message}");
+            // 3. Validate image content
+            using (var validationStream = request.Image.OpenReadStream())
+            {
+                var format = await Image.IdentifyAsync(validationStream);
+                if (format == null)
+                {
+                    return BadRequest(new { error = "The uploaded file is not a valid image or is corrupted." });
+                }
+            }
 
+            var options = new AsciiOptions
+            {
+                Width = request.GetWidth(),
+                Brightness = request.GetBrightness(),
+                Gamma = request.GetGamma(),
+                Invert = request.GetInvert(),
+                SelectedLibrary = request.AsciiLibrary ?? "Classic"
+            };
+
+            // Primary method: Stream-based conversion (In-memory)
             try
             {
-                var tempPath = Path.GetTempFileName();
-
-                using (var stream = new FileStream(tempPath, FileMode.Create))
-                {
-                    await request.Image.CopyToAsync(stream);
-                }
-
-                var asciiArt = ImageToAscii.ConvertToAscii(tempPath, options);
-                Console.WriteLine(
-                    $"🟨 [CONTROLLER] ASCII generated via file fallback, length: {asciiArt?.Length ?? 0}");
-
-                System.IO.File.Delete(tempPath);
-
+                using var processStream = request.Image.OpenReadStream();
+                var asciiArt = ImageToAscii.ConvertToAscii(processStream, options);
                 return Ok(new { ascii = asciiArt });
             }
-            catch (Exception ex)
+            catch (Exception streamEx)
             {
-                Console.WriteLine($"🔴 [CONTROLLER] ERROR: {ex.Message}");
-                Console.WriteLine($"🔴 [CONTROLLER] Stack trace: {ex.StackTrace}");
-                return StatusCode(500, new { error = ex.Message });
-            }
-            finally
-            {
-                if (System.IO.File.Exists(tempPath))
+                Console.WriteLine($"🟨 [CONTROLLER] Stream conversion failed, falling back to file: {streamEx.Message}");
+                
+                // Fallback method: File-based conversion
+                string tempPath = Path.GetTempFileName();
+                try
                 {
-                    System.IO.File.Delete(tempPath);
+                    using (var stream = new FileStream(tempPath, FileMode.Create))
+                    {
+                        await request.Image.CopyToAsync(stream);
+                    }
+
+                    var asciiArt = ImageToAscii.ConvertToAscii(tempPath, options);
+                    return Ok(new { ascii = asciiArt });
+                }
+                finally
+                {
+                    if (System.IO.File.Exists(tempPath))
+                        System.IO.File.Delete(tempPath);
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"🔴 [CONTROLLER] ERROR: {ex.Message}");
+            return StatusCode(500, new { error = "An unexpected error occurred during processing." });
         }
     }
 }

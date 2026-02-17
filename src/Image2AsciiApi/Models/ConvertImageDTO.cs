@@ -1,14 +1,24 @@
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 namespace Image2AsciiApi.Models;
 
 public class ConvertImageDto
 {
+    [Required(ErrorMessage = "An image is required")]
     public IFormFile? Image { get; set; }
+
+    [RegularExpression(@"^\d+$", ErrorMessage = "Width must be a number")]
     public string Width { get; set; } = "100";
+
+    [RegularExpression(@"^-?\d*[.,]?\d*$", ErrorMessage = "Brightness must be a decimal number")]
     public string Brightness { get; set; } = "0.0";
+
+    [RegularExpression(@"^\d*[.,]?\d*$", ErrorMessage = "Gamma must be a positive decimal number")]
     public string Gamma { get; set; } = "1.0";
+    
     public string AsciiLibrary { get; set; } = "Classic";
+    
     public string Invert { get; set; } = "false";
 
     public int GetWidth()
