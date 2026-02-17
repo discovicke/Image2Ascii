@@ -52,29 +52,53 @@ public class AsciiController : ControllerBase
                 SelectedLibrary = request.AsciiLibrary ?? "Classic"
             };
 
-            // Primary method: Stream-based conversion (In-memory)
-            try
-            {
-                using var processStream = request.Image.OpenReadStream();
-                var asciiArt = ImageToAscii.ConvertToAscii(processStream, options);
-                return Ok(new { ascii = asciiArt });
-            }
-            catch (Exception streamEx)
-            {
-                Console.WriteLine($"🟨 [CONTROLLER] Stream conversion failed, falling back to file: {streamEx.Message}");
-                
-                // Fallback method: File-based conversion
-                string tempPath = Path.GetTempFileName();
-                try
-                {
-                    using (var stream = new FileStream(tempPath, FileMode.Create))
-                    {
-                        await request.Image.CopyToAsync(stream);
-                    }
+                            // Primary method: Stream-based conversion (In-memory)
 
-                    var asciiArt = ImageToAscii.ConvertToAscii(tempPath, options);
-                    return Ok(new { ascii = asciiArt });
-                }
+                        try
+
+                        {
+
+                            using var processStream = request.Image.OpenReadStream();
+
+                            var asciiFrames = ImageToAscii.ConvertToAscii(processStream, options);
+
+                            return Ok(new { frames = asciiFrames });
+
+                        }
+
+                        catch (Exception streamEx)
+
+                        {
+
+                            Console.WriteLine($"🟨 [CONTROLLER] Stream conversion failed, falling back to file: {streamEx.Message}");
+
+                            
+
+                            // Fallback method: File-based conversion
+
+                            string tempPath = Path.GetTempFileName();
+
+                            try
+
+                            {
+
+                                using (var stream = new FileStream(tempPath, FileMode.Create))
+
+                                {
+
+                                    await request.Image.CopyToAsync(stream);
+
+                                }
+
+            
+
+                                var asciiFrames = ImageToAscii.ConvertToAscii(tempPath, options);
+
+                                return Ok(new { frames = asciiFrames });
+
+                            }
+
+            
                 finally
                 {
                     if (System.IO.File.Exists(tempPath))
