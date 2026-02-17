@@ -94,9 +94,9 @@ export class WorkspaceComponent {
 
     this.asciiService.generate(file, settings).subscribe({
       next: (response) => {
-        console.log('Got ASCII response:', response.ascii.substring(0, 100) + '...');
+        console.log('Got ASCII response, frames:', response.frames.length);
         this.isLoading.set(false);
-        this.terminalLog.logBatchComplete(response.ascii.length);
+        this.terminalLog.logBatchComplete(response.frames[0]?.length || 0);
       },
       error: (err: unknown) => {
         console.error('API Error:', err);

@@ -13,31 +13,50 @@ import { TerminalLogService } from '../../services/terminal-log.service';
 export class AsciiPreviewComponent implements OnInit, OnDestroy {
   private terminalLog = inject(TerminalLogService);
 
-  ascii = input.required<string>();
+  frames = input.required<string[]>();
   isLoading = input<boolean>(false);
   settings = input<AsciiSettings>();
 
+  protected currentFrameIndex = signal(0);
   protected copySuccess = false;
   protected animatedDots = signal('.');
-  private dotInterval?: number;
+  
+  private dotInterval?: any;
+  private animationInterval?: any;
   private readonly dotStates = ['.  ', '.. ', '...'];
 
   ngOnInit() {
-    let currentIndex = 0;
+    // Dot animation for loading
     this.dotInterval = window.setInterval(() => {
-      currentIndex = (currentIndex + 1) % this.dotStates.length;
-      this.animatedDots.set(this.dotStates[currentIndex]);
+      const current = this.dotStates.indexOf(this.animatedDots());
+      const nextIndex = (current + 1) % this.dotStates.length;
+      this.animatedDots.set(this.dotStates[nextIndex]);
     }, 800);
+
+    // ASCII Frame animation
+    this.animationInterval = window.setInterval(() => {
+      const currentFrames = this.frames();
+      if (currentFrames && currentFrames.length > 1) {
+        this.currentFrameIndex.set((this.currentFrameIndex() + 1) % currentFrames.length);
+      } else {
+        this.currentFrameIndex.set(0);
+      }
+    }, 100);
   }
 
   ngOnDestroy() {
-    if (this.dotInterval) {
-      clearInterval(this.dotInterval);
-    }
+    if (this.dotInterval) clearInterval(this.dotInterval);
+    if (this.animationInterval) clearInterval(this.animationInterval);
+  }
+
+  getCurrentFrame(): string {
+    const f = this.frames();
+    if (!f || f.length === 0) return '';
+    return f[this.currentFrameIndex()] || f[0];
   }
 
   copyToClipboard() {
-    const text = this.ascii();
+    const text = this.getCurrentFrame();
     if (!text) return;
 
     navigator.clipboard.writeText(text).then(() => {
@@ -48,9 +67,11 @@ export class AsciiPreviewComponent implements OnInit, OnDestroy {
   }
 
   downloadAsText() {
-    const text = this.ascii();
-    if (!text) return;
+    const f = this.frames();
+    if (!f || f.length === 0) return;
 
+    // Download all frames for GIFs, or just the one for static images
+    const text = f.join('\n\n--- FRAME BREAK ---\n\n');
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

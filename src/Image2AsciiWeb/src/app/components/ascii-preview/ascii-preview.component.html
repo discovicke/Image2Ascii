@@ -12,8 +12,8 @@
         <div class="spinner"></div>
         <p>>> PROCESSING...</p>
       </div>
-    } @else if (ascii()) {
-      <pre class="ascii-output" [style.color]="settings()?.chromatic ? 'var(--color-text-primary)' : 'var(--color-accent-green)'">{{ ascii() }}</pre>
+    } @else if (frames().length > 0) {
+      <pre class="ascii-output" [style.color]="settings()?.chromatic ? 'var(--color-text-primary)' : 'var(--color-accent-green)'">{{ getCurrentFrame() }}</pre>
     } @else {
       <div class="placeholder">
         <p>AWAITING_INPUT_SIGNAL<span class="dots">{{ animatedDots() }}</span></p>
