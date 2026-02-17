@@ -33,37 +33,52 @@ public class AsciiController : ControllerBase
         if (request.Image == null || request.Image.Length == 0)
             return BadRequest(new { error = "No image uploaded" });
 
+        var options = new AsciiOptions
+        {
+            Width = request.GetWidth(),
+            Brightness = request.GetBrightness(),
+            Gamma = request.GetGamma(),
+            Invert = request.GetInvert(),
+            SelectedLibrary = request.AsciiLibrary ?? "Classic"
+        };
+
+        Console.WriteLine($"🟨 [CONTROLLER] AsciiOptions created: Width={options.Width}, Brightness={options.Brightness}, Gamma={options.Gamma}, Invert={options.Invert}");
+
         try
         {
-            var tempPath = Path.GetTempFileName();
-
-            using (var stream = new FileStream(tempPath, FileMode.Create))
-            {
-                await request.Image.CopyToAsync(stream);
-            }
-
-            var options = new AsciiOptions
-            {
-                Width = request.GetWidth(),
-                Brightness = request.GetBrightness(),
-                Gamma = request.GetGamma(),
-                Invert = request.GetInvert(),
-                SelectedLibrary = request.AsciiLibrary ?? "Classic"
-            };
-
-            Console.WriteLine($"🟨 [CONTROLLER] AsciiOptions created: Width={options.Width}, Brightness={options.Brightness}, Gamma={options.Gamma}, Invert={options.Invert}");
-            var asciiArt = ImageToAscii.ConvertToAscii(tempPath, options);
-            Console.WriteLine($"🟨 [CONTROLLER] ASCII generated, length: {asciiArt?.Length ?? 0}");
-
-            System.IO.File.Delete(tempPath);
-
+            // Försök med stream först (ny metod)
+            Console.WriteLine("🟨 [CONTROLLER] Attempting conversion using stream...");
+            using var stream = request.Image.OpenReadStream();
+            var asciiArt = ImageToAscii.ConvertToAscii(stream, options);
+            Console.WriteLine($"🟨 [CONTROLLER] ASCII generated via stream, length: {asciiArt?.Length ?? 0}");
             return Ok(new { ascii = asciiArt });
         }
-        catch (Exception ex)
+        catch (Exception streamEx)
         {
-            Console.WriteLine($"🔴 [CONTROLLER] ERROR: {ex.Message}");
-            Console.WriteLine($"🔴 [CONTROLLER] Stack trace: {ex.StackTrace}");
-            return StatusCode(500, new { error = ex.Message });
+            Console.WriteLine($"🟨 [CONTROLLER] Stream conversion failed, falling back to file: {streamEx.Message}");
+            
+            try
+            {
+                var tempPath = Path.GetTempFileName();
+
+                using (var stream = new FileStream(tempPath, FileMode.Create))
+                {
+                    await request.Image.CopyToAsync(stream);
+                }
+
+                var asciiArt = ImageToAscii.ConvertToAscii(tempPath, options);
+                Console.WriteLine($"🟨 [CONTROLLER] ASCII generated via file fallback, length: {asciiArt?.Length ?? 0}");
+
+                System.IO.File.Delete(tempPath);
+
+                return Ok(new { ascii = asciiArt });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"🔴 [CONTROLLER] ERROR: {ex.Message}");
+                Console.WriteLine($"🔴 [CONTROLLER] Stack trace: {ex.StackTrace}");
+                return StatusCode(500, new { error = ex.Message });
+            }
         }
     }
 }

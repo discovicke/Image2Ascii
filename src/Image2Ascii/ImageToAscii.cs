@@ -6,13 +6,19 @@ namespace Image2Ascii;
 
 public class ImageToAscii
 {
-    // Ny metod som tar AsciiOptions
+    // Behåll gammal metod för bakåtkompatibilitet
     public static string ConvertToAscii(string imagePath, AsciiOptions options)
+    {
+        using var stream = File.OpenRead(imagePath);
+        return ConvertToAscii(stream, options);
+    }
+
+    public static string ConvertToAscii(Stream imageStream, AsciiOptions options)
     {
         Console.WriteLine(
             $"🟩 [CONVERTER] Starting conversion with: Width={options.Width}, Brightness={options.Brightness}, Gamma={options.Gamma}, Invert={options.Invert}");
 
-        using var image = Image.Load<Rgb24>(imagePath);
+        using var image = Image.Load<Rgb24>(imageStream);
 
         int height = (int)(image.Height * options.Width / (double)image.Width * 0.5);
 
