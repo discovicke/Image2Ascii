@@ -49,10 +49,10 @@ export class ImageInputComponent {
       return;
     }
 
-    // Validate file size (max 5MB)
-    const maxSize = 5 * 1024 * 1024;
+    // Validate file size (max 50MB)
+    const maxSize = 50 * 1024 * 1024;
     if (file.size > maxSize) {
-      this.error = 'File size must be less than 5MB';
+      this.error = 'File size must be less than 50MB';
       this.terminalLog.logFileTooLarge(file.name, fileSize);
       return;
     }

@@ -75,7 +75,7 @@ export class TerminalLogService {
     setTimeout(() => {
       this.info(`FILE: ${fileName}`);
       this.info(`SIZE: ${size}`);
-      this.error('ERROR: FILE EXCEEDS 5MB LIMIT');
+      this.error('ERROR: FILE EXCEEDS 50MB LIMIT');
       this.error('MOUNT ABORTED');
     }, 100);
   }
