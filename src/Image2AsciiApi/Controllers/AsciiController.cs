@@ -33,13 +33,26 @@ public class AsciiController : ControllerBase
 
         try
         {
-            // 3. Validate image content
+            // 3. Validate image content and check pixel budget
             using (var validationStream = request.Image.OpenReadStream())
             {
-                var format = await Image.IdentifyAsync(validationStream);
-                if (format == null)
+                var imageInfo = await Image.IdentifyAsync(validationStream);
+                if (imageInfo == null)
                 {
                     return BadRequest(new { error = "The uploaded file is not a valid image or is corrupted." });
+                }
+
+                // Pixel Budget: Max 40 million total pixels (Width * Height * Frames / Step)
+                // This ensures we stay well within Render's 512MB RAM
+                const int maxFrames = 60;
+                int estimatedFrames = Math.Min(imageInfo.FrameCount, maxFrames);
+                long totalPixels = (long)imageInfo.Width * imageInfo.Height * estimatedFrames;
+                
+                if (totalPixels > 40_000_000) 
+                {
+                    return BadRequest(new { 
+                        error = $"Image is too large to process. Please reduce resolution or frame count. (Detected: {imageInfo.Width}x{imageInfo.Height}, {imageInfo.FrameCount} frames)" 
+                    });
                 }
             }
 
@@ -52,53 +65,36 @@ public class AsciiController : ControllerBase
                 SelectedLibrary = request.AsciiLibrary ?? "Classic"
             };
 
-                            // Primary method: Stream-based conversion (In-memory)
+            // Primary method: Stream-based conversion (In-memory)
+            try
+            {
+                using var processStream = request.Image.OpenReadStream();
+                var asciiFrames = ImageToAscii.ConvertToAscii(processStream, options);
+                
+                // Explicitly trigger GC to free up memory immediately
+                var response = Ok(new { frames = asciiFrames });
+                GC.Collect(2, GCCollectionMode.Forced, true);
+                return response;
+            }
+            catch (Exception streamEx)
+            {
+                Console.WriteLine($"🟨 [CONTROLLER] Stream conversion failed, falling back to file: {streamEx.Message}");
+                
+                // Fallback method: File-based conversion
+                string tempPath = Path.GetTempFileName();
+                try
+                {
+                    using (var stream = new FileStream(tempPath, FileMode.Create))
+                    {
+                        await request.Image.CopyToAsync(stream);
+                    }
 
-                        try
-
-                        {
-
-                            using var processStream = request.Image.OpenReadStream();
-
-                            var asciiFrames = ImageToAscii.ConvertToAscii(processStream, options);
-
-                            return Ok(new { frames = asciiFrames });
-
-                        }
-
-                        catch (Exception streamEx)
-
-                        {
-
-                            Console.WriteLine($"🟨 [CONTROLLER] Stream conversion failed, falling back to file: {streamEx.Message}");
-
-                            
-
-                            // Fallback method: File-based conversion
-
-                            string tempPath = Path.GetTempFileName();
-
-                            try
-
-                            {
-
-                                using (var stream = new FileStream(tempPath, FileMode.Create))
-
-                                {
-
-                                    await request.Image.CopyToAsync(stream);
-
-                                }
-
-            
-
-                                var asciiFrames = ImageToAscii.ConvertToAscii(tempPath, options);
-
-                                return Ok(new { frames = asciiFrames });
-
-                            }
-
-            
+                    var asciiFrames = ImageToAscii.ConvertToAscii(tempPath, options);
+                    
+                    var response = Ok(new { frames = asciiFrames });
+                    GC.Collect(2, GCCollectionMode.Forced, true);
+                    return response;
+                }
                 finally
                 {
                     if (System.IO.File.Exists(tempPath))
